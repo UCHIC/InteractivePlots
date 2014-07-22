@@ -1,0 +1,26 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TSPlotGenerator.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="imagePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\DEV\Swaner\TSPlotGenerator\TSPlotGenerator\bin\Debug\images</Value>
+    </Setting>
+    <Setting Name="VariableCode_Bounds" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;pH_Avg, 0, 14&lt;/string&gt;
+  &lt;string&gt;Cond_Avg, 0, 3000&lt;/string&gt;
+  &lt;string&gt;WLevel_ft_Avg, 0, 10 &lt;/string&gt;
+  &lt;string&gt;Turb_Median, -5, 1650&lt;/string&gt;
+  &lt;string&gt;LDO_mgl_Avg, 0, 20&lt;/string&gt;
+  &lt;string&gt;MS_WTemp_C_Avg, -5, 40&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="MultVarVariable_Bounds" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;DO, Temp, -5, 40&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

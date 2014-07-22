@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SwanerODMModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+        <EntityContainer Name="SwanerODMModelStoreContainer">
+          <EntitySet Name="DataValues" EntityType="SwanerODMModel.Store.DataValues" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SeriesCatalog" EntityType="SwanerODMModel.Store.SeriesCatalog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Units" EntityType="SwanerODMModel.Store.Units" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Variables" EntityType="SwanerODMModel.Store.Variables" store:Type="Tables" Schema="dbo" />
+          
+        </EntityContainer>
+        <EntityType Name="DataValues">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DataValue" Type="float" Nullable="false" />
+          <Property Name="ValueAccuracy" Type="float" />
+          <Property Name="LocalDateTime" Type="datetime" Nullable="false" />
+          <Property Name="UTCOffset" Type="float" Nullable="false" />
+          <Property Name="DateTimeUTC" Type="datetime" Nullable="false" />
+          <Property Name="SiteID" Type="int" Nullable="false" />
+          <Property Name="VariableID" Type="int" Nullable="false" />
+          <Property Name="OffsetValue" Type="float" />
+          <Property Name="OffsetTypeID" Type="int" />
+          <Property Name="CensorCode" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="QualifierID" Type="int" />
+          <Property Name="MethodID" Type="int" Nullable="false" />
+          <Property Name="SourceID" Type="int" Nullable="false" />
+          <Property Name="SampleID" Type="int" />
+          <Property Name="DerivedFromID" Type="int" />
+          <Property Name="QualityControlLevelID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesCatalog">
+          <Key>
+            <PropertyRef Name="SeriesID" />
+          </Key>
+          <Property Name="SeriesID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteID" Type="int" />
+          <Property Name="SiteCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="255" />
+          <Property Name="VariableID" Type="int" />
+          <Property Name="VariableCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="VariableName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Speciation" Type="nvarchar" MaxLength="255" />
+          <Property Name="VariableUnitsID" Type="int" />
+          <Property Name="VariableUnitsName" Type="nvarchar" MaxLength="255" />
+          <Property Name="SampleMedium" Type="nvarchar" MaxLength="255" />
+          <Property Name="ValueType" Type="nvarchar" MaxLength="255" />
+          <Property Name="TimeSupport" Type="float" />
+          <Property Name="TimeUnitsID" Type="int" />
+          <Property Name="TimeUnitsName" Type="nvarchar" MaxLength="255" />
+          <Property Name="DataType" Type="nvarchar" MaxLength="255" />
+          <Property Name="GeneralCategory" Type="nvarchar" MaxLength="255" />
+          <Property Name="MethodID" Type="int" />
+          <Property Name="MethodDescription" Type="nvarchar(max)" />
+          <Property Name="SourceID" Type="int" />
+          <Property Name="Organization" Type="nvarchar" MaxLength="255" />
+          <Property Name="SourceDescription" Type="nvarchar(max)" />
+          <Property Name="Citation" Type="nvarchar(max)" />
+          <Property Name="QualityControlLevelID" Type="int" />
+          <Property Name="QualityControlLevelCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BeginDateTime" Type="datetime" />
+          <Property Name="EndDateTime" Type="datetime" />
+          <Property Name="BeginDateTimeUTC" Type="datetime" />
+          <Property Name="EndDateTimeUTC" Type="datetime" />
+          <Property Name="ValueCount" Type="int" />
+        </EntityType>
+        <EntityType Name="Units">
+          <Key>
+            <PropertyRef Name="UnitsID" />
+          </Key>
+          <Property Name="UnitsID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UnitsName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="UnitsType" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="UnitsAbbreviation" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Variables">
+          <Key>
+            <PropertyRef Name="VariableID" />
+          </Key>
+          <Property Name="VariableID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="VariableCode" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="VariableName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Speciation" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="VariableUnitsID" Type="int" Nullable="false" />
+          <Property Name="SampleMedium" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="ValueType" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="IsRegular" Type="bit" Nullable="false" />
+          <Property Name="TimeSupport" Type="float" Nullable="false" />
+          <Property Name="TimeUnitsID" Type="int" Nullable="false" />
+          <Property Name="DataType" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="GeneralCategory" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="NoDataValue" Type="float" Nullable="false" />
+        </EntityType>
+        
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SwanerODMModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+        <EntityContainer Name="SwanerODMEntities">
+          <EntitySet Name="DataValues" EntityType="SwanerODMModel.DataValues" />
+          <EntitySet Name="SeriesCatalog" EntityType="SwanerODMModel.SeriesCatalog" />
+          <EntitySet Name="Variables" EntityType="SwanerODMModel.Variables" />
+          <EntitySet Name="Units" EntityType="SwanerODMModel.Units" />
+        </EntityContainer>
+        <EntityType Name="DataValues">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataValue" Type="Double" Nullable="false" />
+          <Property Name="ValueAccuracy" Type="Double" />
+          <Property Name="LocalDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="UTCOffset" Type="Double" Nullable="false" />
+          <Property Name="DateTimeUTC" Type="DateTime" Nullable="false" />
+          <Property Name="SiteID" Type="Int32" Nullable="false" />
+          <Property Name="VariableID" Type="Int32" Nullable="false" />
+          <Property Name="OffsetValue" Type="Double" />
+          <Property Name="OffsetTypeID" Type="Int32" />
+          <Property Name="CensorCode" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="QualifierID" Type="Int32" />
+          <Property Name="MethodID" Type="Int32" Nullable="false" />
+          <Property Name="SourceID" Type="Int32" Nullable="false" />
+          <Property Name="SampleID" Type="Int32" />
+          <Property Name="DerivedFromID" Type="Int32" />
+          <Property Name="QualityControlLevelID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeriesCatalog">
+          <Key>
+            <PropertyRef Name="SeriesID" />
+          </Key>
+          <Property Name="SeriesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteID" Type="Int32" />
+          <Property Name="SiteCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SiteName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="VariableID" Type="Int32" />
+          <Property Name="VariableCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="VariableName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Speciation" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="VariableUnitsID" Type="Int32" />
+          <Property Name="VariableUnitsName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="SampleMedium" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ValueType" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="TimeSupport" Type="Double" />
+          <Property Name="TimeUnitsID" Type="Int32" />
+          <Property Name="TimeUnitsName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="DataType" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="GeneralCategory" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="MethodID" Type="Int32" />
+          <Property Name="MethodDescription" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="SourceID" Type="Int32" />
+          <Property Name="Organization" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="SourceDescription" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Citation" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="QualityControlLevelID" Type="Int32" />
+          <Property Name="QualityControlLevelCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="BeginDateTime" Type="DateTime" />
+          <Property Name="EndDateTime" Type="DateTime" />
+          <Property Name="BeginDateTimeUTC" Type="DateTime" />
+          <Property Name="EndDateTimeUTC" Type="DateTime" />
+          <Property Name="ValueCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Variables">
+          <Key>
+            <PropertyRef Name="VariableID" />
+          </Key>
+          <Property Type="Int32" Name="VariableID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="VariableCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="VariableName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Speciation" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="VariableUnitsID" Nullable="false" />
+          <Property Type="String" Name="SampleMedium" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ValueType" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsRegular" Nullable="false" />
+          <Property Type="Double" Name="TimeSupport" Nullable="false" />
+          <Property Type="Int32" Name="TimeUnitsID" Nullable="false" />
+          <Property Type="String" Name="DataType" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="GeneralCategory" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="NoDataValue" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Units">
+          <Key>
+            <PropertyRef Name="UnitsID" />
+          </Key>
+          <Property Type="Int32" Name="UnitsID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UnitsName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UnitsType" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UnitsAbbreviation" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+        <EntityContainerMapping StorageEntityContainer="SwanerODMModelStoreContainer" CdmEntityContainer="SwanerODMEntities">
+          <EntitySetMapping Name="DataValues"><EntityTypeMapping TypeName="SwanerODMModel.DataValues"><MappingFragment StoreEntitySet="DataValues">
+            <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+            <ScalarProperty Name="DataValue" ColumnName="DataValue" />
+            <ScalarProperty Name="ValueAccuracy" ColumnName="ValueAccuracy" />
+            <ScalarProperty Name="LocalDateTime" ColumnName="LocalDateTime" />
+            <ScalarProperty Name="UTCOffset" ColumnName="UTCOffset" />
+            <ScalarProperty Name="DateTimeUTC" ColumnName="DateTimeUTC" />
+            <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+            <ScalarProperty Name="VariableID" ColumnName="VariableID" />
+            <ScalarProperty Name="OffsetValue" ColumnName="OffsetValue" />
+            <ScalarProperty Name="OffsetTypeID" ColumnName="OffsetTypeID" />
+            <ScalarProperty Name="CensorCode" ColumnName="CensorCode" />
+            <ScalarProperty Name="QualifierID" ColumnName="QualifierID" />
+            <ScalarProperty Name="MethodID" ColumnName="MethodID" />
+            <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+            <ScalarProperty Name="SampleID" ColumnName="SampleID" />
+            <ScalarProperty Name="DerivedFromID" ColumnName="DerivedFromID" />
+            <ScalarProperty Name="QualityControlLevelID" ColumnName="QualityControlLevelID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="SeriesCatalog"><EntityTypeMapping TypeName="SwanerODMModel.SeriesCatalog"><MappingFragment StoreEntitySet="SeriesCatalog">
+            <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+            <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+            <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+            <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+            <ScalarProperty Name="VariableID" ColumnName="VariableID" />
+            <ScalarProperty Name="VariableCode" ColumnName="VariableCode" />
+            <ScalarProperty Name="VariableName" ColumnName="VariableName" />
+            <ScalarProperty Name="Speciation" ColumnName="Speciation" />
+            <ScalarProperty Name="VariableUnitsID" ColumnName="VariableUnitsID" />
+            <ScalarProperty Name="VariableUnitsName" ColumnName="VariableUnitsName" />
+            <ScalarProperty Name="SampleMedium" ColumnName="SampleMedium" />
+            <ScalarProperty Name="ValueType" ColumnName="ValueType" />
+            <ScalarProperty Name="TimeSupport" ColumnName="TimeSupport" />
+            <ScalarProperty Name="TimeUnitsID" ColumnName="TimeUnitsID" />
+            <ScalarProperty Name="TimeUnitsName" ColumnName="TimeUnitsName" />
+            <ScalarProperty Name="DataType" ColumnName="DataType" />
+            <ScalarProperty Name="GeneralCategory" ColumnName="GeneralCategory" />
+            <ScalarProperty Name="MethodID" ColumnName="MethodID" />
+            <ScalarProperty Name="MethodDescription" ColumnName="MethodDescription" />
+            <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+            <ScalarProperty Name="Organization" ColumnName="Organization" />
+            <ScalarProperty Name="SourceDescription" ColumnName="SourceDescription" />
+            <ScalarProperty Name="Citation" ColumnName="Citation" />
+            <ScalarProperty Name="QualityControlLevelID" ColumnName="QualityControlLevelID" />
+            <ScalarProperty Name="QualityControlLevelCode" ColumnName="QualityControlLevelCode" />
+            <ScalarProperty Name="BeginDateTime" ColumnName="BeginDateTime" />
+            <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+            <ScalarProperty Name="BeginDateTimeUTC" ColumnName="BeginDateTimeUTC" />
+            <ScalarProperty Name="EndDateTimeUTC" ColumnName="EndDateTimeUTC" />
+            <ScalarProperty Name="ValueCount" ColumnName="ValueCount" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Variables">
+            <EntityTypeMapping TypeName="SwanerODMModel.Variables">
+              <MappingFragment StoreEntitySet="Variables">
+                <ScalarProperty Name="NoDataValue" ColumnName="NoDataValue" />
+                <ScalarProperty Name="GeneralCategory" ColumnName="GeneralCategory" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="TimeUnitsID" ColumnName="TimeUnitsID" />
+                <ScalarProperty Name="TimeSupport" ColumnName="TimeSupport" />
+                <ScalarProperty Name="IsRegular" ColumnName="IsRegular" />
+                <ScalarProperty Name="ValueType" ColumnName="ValueType" />
+                <ScalarProperty Name="SampleMedium" ColumnName="SampleMedium" />
+                <ScalarProperty Name="VariableUnitsID" ColumnName="VariableUnitsID" />
+                <ScalarProperty Name="Speciation" ColumnName="Speciation" />
+                <ScalarProperty Name="VariableName" ColumnName="VariableName" />
+                <ScalarProperty Name="VariableCode" ColumnName="VariableCode" />
+                <ScalarProperty Name="VariableID" ColumnName="VariableID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="SwanerODMModel.Units">
+              <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="UnitsAbbreviation" ColumnName="UnitsAbbreviation" />
+                <ScalarProperty Name="UnitsType" ColumnName="UnitsType" />
+                <ScalarProperty Name="UnitsName" ColumnName="UnitsName" />
+                <ScalarProperty Name="UnitsID" ColumnName="UnitsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2007/06/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ODMModel">
+        <EntityTypeShape EntityType="SwanerODMModel.DataValues" Width="1.5" PointX="0.75" PointY="0.75" Height="4.2879036458333326" IsExpanded="true" />
+        <EntityTypeShape EntityType="SwanerODMModel.SeriesCatalog" Width="1.5" PointX="2.75" PointY="0.75" Height="6.787822265625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SwanerODMModel.Variables" Width="1.5" PointX="4.625" PointY="1.5" Height="3.5186979166666656" />
+        <EntityTypeShape EntityType="SwanerODMModel.Units" Width="1.5" PointX="6.625" PointY="3.375" Height="1.7879850260416657" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
