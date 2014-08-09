@@ -1,0 +1,921 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="iUTAH_Logan_ODModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="iUTAH_Logan_ODModelStoreContainer">
+          <EntitySet Name="DataTypeCV" EntityType="iUTAH_Logan_ODModel.Store.DataTypeCV" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DataValues" EntityType="iUTAH_Logan_ODModel.Store.DataValues" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SampleMediumCV" EntityType="iUTAH_Logan_ODModel.Store.SampleMediumCV" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SeriesCatalog" EntityType="iUTAH_Logan_ODModel.Store.SeriesCatalog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Sites" EntityType="iUTAH_Logan_ODModel.Store.Sites" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SiteTypeCV" EntityType="iUTAH_Logan_ODModel.Store.SiteTypeCV" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Units" EntityType="iUTAH_Logan_ODModel.Store.Units" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ValueTypeCV" EntityType="iUTAH_Logan_ODModel.Store.ValueTypeCV" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="VariableNameCV" EntityType="iUTAH_Logan_ODModel.Store.VariableNameCV" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Variables" EntityType="iUTAH_Logan_ODModel.Store.Variables" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="VerticalDatumCV" EntityType="iUTAH_Logan_ODModel.Store.VerticalDatumCV" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_DataValues_Sites" Association="iUTAH_Logan_ODModel.Store.FK_DataValues_Sites">
+            <End Role="Sites" EntitySet="Sites" />
+            <End Role="DataValues" EntitySet="DataValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataValues_Variables" Association="iUTAH_Logan_ODModel.Store.FK_DataValues_Variables">
+            <End Role="Variables" EntitySet="Variables" />
+            <End Role="DataValues" EntitySet="DataValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sites_SiteTypeCV" Association="iUTAH_Logan_ODModel.Store.FK_Sites_SiteTypeCV">
+            <End Role="SiteTypeCV" EntitySet="SiteTypeCV" />
+            <End Role="Sites" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sites_VerticalDatumCV" Association="iUTAH_Logan_ODModel.Store.FK_Sites_VerticalDatumCV">
+            <End Role="VerticalDatumCV" EntitySet="VerticalDatumCV" />
+            <End Role="Sites" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_DataTypeCV" Association="iUTAH_Logan_ODModel.Store.FK_Variables_DataTypeCV">
+            <End Role="DataTypeCV" EntitySet="DataTypeCV" />
+            <End Role="Variables" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_SampleMediumCV" Association="iUTAH_Logan_ODModel.Store.FK_Variables_SampleMediumCV">
+            <End Role="SampleMediumCV" EntitySet="SampleMediumCV" />
+            <End Role="Variables" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_Units" Association="iUTAH_Logan_ODModel.Store.FK_Variables_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Variables" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_Units1" Association="iUTAH_Logan_ODModel.Store.FK_Variables_Units1">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Variables" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_ValueTypeCV" Association="iUTAH_Logan_ODModel.Store.FK_Variables_ValueTypeCV">
+            <End Role="ValueTypeCV" EntitySet="ValueTypeCV" />
+            <End Role="Variables" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_VariableNameCV" Association="iUTAH_Logan_ODModel.Store.FK_Variables_VariableNameCV">
+            <End Role="VariableNameCV" EntitySet="VariableNameCV" />
+            <End Role="Variables" EntitySet="Variables" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DataTypeCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Name="Term" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Definition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="DataValues">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DataValue" Type="float" Nullable="false" />
+          <Property Name="ValueAccuracy" Type="float" />
+          <Property Name="LocalDateTime" Type="datetime" Nullable="false" />
+          <Property Name="UTCOffset" Type="float" Nullable="false" />
+          <Property Name="DateTimeUTC" Type="datetime" Nullable="false" />
+          <Property Name="SiteID" Type="int" Nullable="false" />
+          <Property Name="VariableID" Type="int" Nullable="false" />
+          <Property Name="OffsetValue" Type="float" />
+          <Property Name="OffsetTypeID" Type="int" />
+          <Property Name="CensorCode" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="QualifierID" Type="int" />
+          <Property Name="MethodID" Type="int" Nullable="false" />
+          <Property Name="SourceID" Type="int" Nullable="false" />
+          <Property Name="SampleID" Type="int" />
+          <Property Name="DerivedFromID" Type="int" />
+          <Property Name="QualityControlLevelID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SampleMediumCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Name="Term" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Definition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SeriesCatalog">
+          <Key>
+            <PropertyRef Name="SeriesID" />
+          </Key>
+          <Property Name="SeriesID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteID" Type="int" />
+          <Property Name="SiteCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="255" />
+          <Property Name="SiteType" Type="nvarchar" MaxLength="255" />
+          <Property Name="VariableID" Type="int" />
+          <Property Name="VariableCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="VariableName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Speciation" Type="nvarchar" MaxLength="255" />
+          <Property Name="VariableUnitsID" Type="int" />
+          <Property Name="VariableUnitsName" Type="nvarchar" MaxLength="255" />
+          <Property Name="SampleMedium" Type="nvarchar" MaxLength="255" />
+          <Property Name="ValueType" Type="nvarchar" MaxLength="255" />
+          <Property Name="TimeSupport" Type="float" />
+          <Property Name="TimeUnitsID" Type="int" />
+          <Property Name="TimeUnitsName" Type="nvarchar" MaxLength="255" />
+          <Property Name="DataType" Type="nvarchar" MaxLength="255" />
+          <Property Name="GeneralCategory" Type="nvarchar" MaxLength="255" />
+          <Property Name="MethodID" Type="int" />
+          <Property Name="MethodDescription" Type="nvarchar(max)" />
+          <Property Name="SourceID" Type="int" />
+          <Property Name="Organization" Type="nvarchar" MaxLength="255" />
+          <Property Name="SourceDescription" Type="nvarchar(max)" />
+          <Property Name="Citation" Type="nvarchar(max)" />
+          <Property Name="QualityControlLevelID" Type="int" />
+          <Property Name="QualityControlLevelCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="BeginDateTime" Type="datetime" />
+          <Property Name="EndDateTime" Type="datetime" />
+          <Property Name="BeginDateTimeUTC" Type="datetime" />
+          <Property Name="EndDateTimeUTC" Type="datetime" />
+          <Property Name="ValueCount" Type="int" />
+        </EntityType>
+        <EntityType Name="Sites">
+          <Key>
+            <PropertyRef Name="SiteID" />
+          </Key>
+          <Property Name="SiteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteCode" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SiteName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Latitude" Type="float" Nullable="false" />
+          <Property Name="Longitude" Type="float" Nullable="false" />
+          <Property Name="LatLongDatumID" Type="int" Nullable="false" />
+          <Property Name="Elevation_m" Type="float" />
+          <Property Name="VerticalDatum" Type="nvarchar" MaxLength="255" />
+          <Property Name="LocalX" Type="float" />
+          <Property Name="LocalY" Type="float" />
+          <Property Name="LocalProjectionID" Type="int" />
+          <Property Name="PosAccuracy_m" Type="float" />
+          <Property Name="State" Type="nvarchar" MaxLength="255" />
+          <Property Name="County" Type="nvarchar" MaxLength="255" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="SiteType" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="SiteTypeCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Name="Term" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Definition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Units">
+          <Key>
+            <PropertyRef Name="UnitsID" />
+          </Key>
+          <Property Name="UnitsID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UnitsName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="UnitsType" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="UnitsAbbreviation" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ValueTypeCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Name="Term" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Definition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="VariableNameCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Name="Term" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Definition" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Variables">
+          <Key>
+            <PropertyRef Name="VariableID" />
+          </Key>
+          <Property Name="VariableID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="VariableCode" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="VariableName" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Speciation" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="VariableUnitsID" Type="int" Nullable="false" />
+          <Property Name="SampleMedium" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="ValueType" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="IsRegular" Type="bit" Nullable="false" />
+          <Property Name="TimeSupport" Type="float" Nullable="false" />
+          <Property Name="TimeUnitsID" Type="int" Nullable="false" />
+          <Property Name="DataType" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="GeneralCategory" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="NoDataValue" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VerticalDatumCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Name="Term" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Definition" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_DataValues_Sites">
+          <End Role="Sites" Type="iUTAH_Logan_ODModel.Store.Sites" Multiplicity="1" />
+          <End Role="DataValues" Type="iUTAH_Logan_ODModel.Store.DataValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sites">
+              <PropertyRef Name="SiteID" />
+            </Principal>
+            <Dependent Role="DataValues">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataValues_Variables">
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Store.Variables" Multiplicity="1" />
+          <End Role="DataValues" Type="iUTAH_Logan_ODModel.Store.DataValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Variables">
+              <PropertyRef Name="VariableID" />
+            </Principal>
+            <Dependent Role="DataValues">
+              <PropertyRef Name="VariableID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sites_SiteTypeCV">
+          <End Role="SiteTypeCV" Type="iUTAH_Logan_ODModel.Store.SiteTypeCV" Multiplicity="0..1" />
+          <End Role="Sites" Type="iUTAH_Logan_ODModel.Store.Sites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteTypeCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Sites">
+              <PropertyRef Name="SiteType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sites_VerticalDatumCV">
+          <End Role="VerticalDatumCV" Type="iUTAH_Logan_ODModel.Store.VerticalDatumCV" Multiplicity="0..1" />
+          <End Role="Sites" Type="iUTAH_Logan_ODModel.Store.Sites" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VerticalDatumCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Sites">
+              <PropertyRef Name="VerticalDatum" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_DataTypeCV">
+          <End Role="DataTypeCV" Type="iUTAH_Logan_ODModel.Store.DataTypeCV" Multiplicity="1" />
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Store.Variables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataTypeCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Variables">
+              <PropertyRef Name="DataType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_SampleMediumCV">
+          <End Role="SampleMediumCV" Type="iUTAH_Logan_ODModel.Store.SampleMediumCV" Multiplicity="1" />
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Store.Variables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SampleMediumCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Variables">
+              <PropertyRef Name="SampleMedium" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_Units">
+          <End Role="Units" Type="iUTAH_Logan_ODModel.Store.Units" Multiplicity="1" />
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Store.Variables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="UnitsID" />
+            </Principal>
+            <Dependent Role="Variables">
+              <PropertyRef Name="VariableUnitsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_Units1">
+          <End Role="Units" Type="iUTAH_Logan_ODModel.Store.Units" Multiplicity="1" />
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Store.Variables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="UnitsID" />
+            </Principal>
+            <Dependent Role="Variables">
+              <PropertyRef Name="TimeUnitsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_ValueTypeCV">
+          <End Role="ValueTypeCV" Type="iUTAH_Logan_ODModel.Store.ValueTypeCV" Multiplicity="1" />
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Store.Variables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ValueTypeCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Variables">
+              <PropertyRef Name="ValueType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_VariableNameCV">
+          <End Role="VariableNameCV" Type="iUTAH_Logan_ODModel.Store.VariableNameCV" Multiplicity="1" />
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Store.Variables" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VariableNameCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Variables">
+              <PropertyRef Name="VariableName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="iUTAH_Logan_ODModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="LoganODMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DataValues" EntityType="iUTAH_Logan_ODModel.DataValue" />
+          <EntitySet Name="SeriesCatalogs" EntityType="iUTAH_Logan_ODModel.SeriesCatalog" />
+          <EntitySet Name="Units" EntityType="iUTAH_Logan_ODModel.Unit" />
+          <EntitySet Name="Variables" EntityType="iUTAH_Logan_ODModel.Variable" />
+          <AssociationSet Name="FK_DataValues_Variables" Association="iUTAH_Logan_ODModel.FK_DataValues_Variables">
+            <End Role="Variables" EntitySet="Variables" />
+            <End Role="DataValues" EntitySet="DataValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_Units" Association="iUTAH_Logan_ODModel.FK_Variables_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Variables" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_Units1" Association="iUTAH_Logan_ODModel.FK_Variables_Units1">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="Variables" EntitySet="Variables" />
+          </AssociationSet>
+          <EntitySet Name="DataTypeCVs" EntityType="iUTAH_Logan_ODModel.DataTypeCV" />
+          <EntitySet Name="SampleMediumCVs" EntityType="iUTAH_Logan_ODModel.SampleMediumCV" />
+          <EntitySet Name="Sites" EntityType="iUTAH_Logan_ODModel.Site" />
+          <EntitySet Name="SiteTypeCVs" EntityType="iUTAH_Logan_ODModel.SiteTypeCV" />
+          <EntitySet Name="ValueTypeCVs" EntityType="iUTAH_Logan_ODModel.ValueTypeCV" />
+          <EntitySet Name="VariableNameCVs" EntityType="iUTAH_Logan_ODModel.VariableNameCV" />
+          <EntitySet Name="VerticalDatumCVs" EntityType="iUTAH_Logan_ODModel.VerticalDatumCV" />
+          <AssociationSet Name="FK_Variables_DataTypeCV" Association="iUTAH_Logan_ODModel.FK_Variables_DataTypeCV">
+            <End Role="DataTypeCV" EntitySet="DataTypeCVs" />
+            <End Role="Variable" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataValues_Sites" Association="iUTAH_Logan_ODModel.FK_DataValues_Sites">
+            <End Role="Site" EntitySet="Sites" />
+            <End Role="DataValue" EntitySet="DataValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_SampleMediumCV" Association="iUTAH_Logan_ODModel.FK_Variables_SampleMediumCV">
+            <End Role="SampleMediumCV" EntitySet="SampleMediumCVs" />
+            <End Role="Variable" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sites_SiteTypeCV" Association="iUTAH_Logan_ODModel.FK_Sites_SiteTypeCV">
+            <End Role="SiteTypeCV" EntitySet="SiteTypeCVs" />
+            <End Role="Site" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sites_VerticalDatumCV" Association="iUTAH_Logan_ODModel.FK_Sites_VerticalDatumCV">
+            <End Role="VerticalDatumCV" EntitySet="VerticalDatumCVs" />
+            <End Role="Site" EntitySet="Sites" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_ValueTypeCV" Association="iUTAH_Logan_ODModel.FK_Variables_ValueTypeCV">
+            <End Role="ValueTypeCV" EntitySet="ValueTypeCVs" />
+            <End Role="Variable" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Variables_VariableNameCV" Association="iUTAH_Logan_ODModel.FK_Variables_VariableNameCV">
+            <End Role="VariableNameCV" EntitySet="VariableNameCVs" />
+            <End Role="Variable" EntitySet="Variables" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DataValue">
+          <Key>
+            <PropertyRef Name="ValueID" />
+          </Key>
+          <Property Name="ValueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataValue1" Type="Double" Nullable="false" />
+          <Property Name="ValueAccuracy" Type="Double" />
+          <Property Name="LocalDateTime" Type="DateTime" Nullable="false" />
+          <Property Name="UTCOffset" Type="Double" Nullable="false" />
+          <Property Name="DateTimeUTC" Type="DateTime" Nullable="false" />
+          <Property Name="SiteID" Type="Int32" Nullable="false" />
+          <Property Name="VariableID" Type="Int32" Nullable="false" />
+          <Property Name="OffsetValue" Type="Double" />
+          <Property Name="OffsetTypeID" Type="Int32" />
+          <Property Name="CensorCode" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="QualifierID" Type="Int32" />
+          <Property Name="MethodID" Type="Int32" Nullable="false" />
+          <Property Name="SourceID" Type="Int32" Nullable="false" />
+          <Property Name="SampleID" Type="Int32" />
+          <Property Name="DerivedFromID" Type="Int32" />
+          <Property Name="QualityControlLevelID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Variable" Relationship="iUTAH_Logan_ODModel.FK_DataValues_Variables" FromRole="DataValues" ToRole="Variables" />
+          <NavigationProperty Name="Site" Relationship="iUTAH_Logan_ODModel.FK_DataValues_Sites" FromRole="DataValue" ToRole="Site" />
+        </EntityType>
+        <EntityType Name="SeriesCatalog">
+          <Key>
+            <PropertyRef Name="SeriesID" />
+          </Key>
+          <Property Name="SeriesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteID" Type="Int32" />
+          <Property Name="SiteCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SiteName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="SiteType" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="VariableID" Type="Int32" />
+          <Property Name="VariableCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="VariableName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Speciation" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="VariableUnitsID" Type="Int32" />
+          <Property Name="VariableUnitsName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="SampleMedium" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ValueType" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="TimeSupport" Type="Double" />
+          <Property Name="TimeUnitsID" Type="Int32" />
+          <Property Name="TimeUnitsName" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="DataType" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="GeneralCategory" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="MethodID" Type="Int32" />
+          <Property Name="MethodDescription" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="SourceID" Type="Int32" />
+          <Property Name="Organization" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="SourceDescription" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Citation" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="QualityControlLevelID" Type="Int32" />
+          <Property Name="QualityControlLevelCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="BeginDateTime" Type="DateTime" />
+          <Property Name="EndDateTime" Type="DateTime" />
+          <Property Name="BeginDateTimeUTC" Type="DateTime" />
+          <Property Name="EndDateTimeUTC" Type="DateTime" />
+          <Property Name="ValueCount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="UnitsID" />
+          </Key>
+          <Property Name="UnitsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UnitsName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="UnitsType" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="UnitsAbbreviation" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Variables" Relationship="iUTAH_Logan_ODModel.FK_Variables_Units" FromRole="Units" ToRole="Variables" />
+          <NavigationProperty Name="Variables1" Relationship="iUTAH_Logan_ODModel.FK_Variables_Units1" FromRole="Units" ToRole="Variables" />
+        </EntityType>
+        <EntityType Name="Variable">
+          <Key>
+            <PropertyRef Name="VariableID" />
+          </Key>
+          <Property Name="VariableID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VariableCode" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="VariableName" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Speciation" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="VariableUnitsID" Type="Int32" Nullable="false" />
+          <Property Name="SampleMedium" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="ValueType" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="IsRegular" Type="Boolean" Nullable="false" />
+          <Property Name="TimeSupport" Type="Double" Nullable="false" />
+          <Property Name="TimeUnitsID" Type="Int32" Nullable="false" />
+          <Property Name="DataType" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="GeneralCategory" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="NoDataValue" Type="Double" Nullable="false" />
+          <NavigationProperty Name="DataValues" Relationship="iUTAH_Logan_ODModel.FK_DataValues_Variables" FromRole="Variables" ToRole="DataValues" />
+          <NavigationProperty Name="Unit" Relationship="iUTAH_Logan_ODModel.FK_Variables_Units" FromRole="Variables" ToRole="Units" />
+          <NavigationProperty Name="Unit1" Relationship="iUTAH_Logan_ODModel.FK_Variables_Units1" FromRole="Variables" ToRole="Units" />
+          <NavigationProperty Name="DataTypeCV" Relationship="iUTAH_Logan_ODModel.FK_Variables_DataTypeCV" FromRole="Variable" ToRole="DataTypeCV" />
+          <NavigationProperty Name="SampleMediumCV" Relationship="iUTAH_Logan_ODModel.FK_Variables_SampleMediumCV" FromRole="Variable" ToRole="SampleMediumCV" />
+          <NavigationProperty Name="ValueTypeCV" Relationship="iUTAH_Logan_ODModel.FK_Variables_ValueTypeCV" FromRole="Variable" ToRole="ValueTypeCV" />
+          <NavigationProperty Name="VariableNameCV" Relationship="iUTAH_Logan_ODModel.FK_Variables_VariableNameCV" FromRole="Variable" ToRole="VariableNameCV" />
+        </EntityType>
+        <Association Name="FK_DataValues_Variables">
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Variable" Multiplicity="1" />
+          <End Role="DataValues" Type="iUTAH_Logan_ODModel.DataValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Variables">
+              <PropertyRef Name="VariableID" />
+            </Principal>
+            <Dependent Role="DataValues">
+              <PropertyRef Name="VariableID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_Units">
+          <End Role="Units" Type="iUTAH_Logan_ODModel.Unit" Multiplicity="1" />
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="UnitsID" />
+            </Principal>
+            <Dependent Role="Variables">
+              <PropertyRef Name="VariableUnitsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_Units1">
+          <End Role="Units" Type="iUTAH_Logan_ODModel.Unit" Multiplicity="1" />
+          <End Role="Variables" Type="iUTAH_Logan_ODModel.Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="UnitsID" />
+            </Principal>
+            <Dependent Role="Variables">
+              <PropertyRef Name="TimeUnitsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DataTypeCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Type="String" Name="Term" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Definition" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Variables" Relationship="iUTAH_Logan_ODModel.FK_Variables_DataTypeCV" FromRole="DataTypeCV" ToRole="Variable" />
+        </EntityType>
+        <EntityType Name="SampleMediumCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Type="String" Name="Term" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Definition" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Variables" Relationship="iUTAH_Logan_ODModel.FK_Variables_SampleMediumCV" FromRole="SampleMediumCV" ToRole="Variable" />
+        </EntityType>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="SiteID" />
+          </Key>
+          <Property Type="Int32" Name="SiteID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="SiteCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SiteName" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Latitude" Nullable="false" />
+          <Property Type="Double" Name="Longitude" Nullable="false" />
+          <Property Type="Int32" Name="LatLongDatumID" Nullable="false" />
+          <Property Type="Double" Name="Elevation_m" />
+          <Property Type="String" Name="VerticalDatum" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="LocalX" />
+          <Property Type="Double" Name="LocalY" />
+          <Property Type="Int32" Name="LocalProjectionID" />
+          <Property Type="Double" Name="PosAccuracy_m" />
+          <Property Type="String" Name="State" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="County" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Comments" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SiteType" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DataValues" Relationship="iUTAH_Logan_ODModel.FK_DataValues_Sites" FromRole="Site" ToRole="DataValue" />
+          <NavigationProperty Name="SiteTypeCV" Relationship="iUTAH_Logan_ODModel.FK_Sites_SiteTypeCV" FromRole="Site" ToRole="SiteTypeCV" />
+          <NavigationProperty Name="VerticalDatumCV" Relationship="iUTAH_Logan_ODModel.FK_Sites_VerticalDatumCV" FromRole="Site" ToRole="VerticalDatumCV" />
+        </EntityType>
+        <EntityType Name="SiteTypeCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Type="String" Name="Term" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Definition" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sites" Relationship="iUTAH_Logan_ODModel.FK_Sites_SiteTypeCV" FromRole="SiteTypeCV" ToRole="Site" />
+        </EntityType>
+        <EntityType Name="ValueTypeCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Type="String" Name="Term" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Definition" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Variables" Relationship="iUTAH_Logan_ODModel.FK_Variables_ValueTypeCV" FromRole="ValueTypeCV" ToRole="Variable" />
+        </EntityType>
+        <EntityType Name="VariableNameCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Type="String" Name="Term" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Definition" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Variables" Relationship="iUTAH_Logan_ODModel.FK_Variables_VariableNameCV" FromRole="VariableNameCV" ToRole="Variable" />
+        </EntityType>
+        <EntityType Name="VerticalDatumCV">
+          <Key>
+            <PropertyRef Name="Term" />
+          </Key>
+          <Property Type="String" Name="Term" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Definition" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sites" Relationship="iUTAH_Logan_ODModel.FK_Sites_VerticalDatumCV" FromRole="VerticalDatumCV" ToRole="Site" />
+        </EntityType>
+        <Association Name="FK_Variables_DataTypeCV">
+          <End Type="iUTAH_Logan_ODModel.DataTypeCV" Role="DataTypeCV" Multiplicity="1" />
+          <End Type="iUTAH_Logan_ODModel.Variable" Role="Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataTypeCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Variable">
+              <PropertyRef Name="DataType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DataValues_Sites">
+          <End Type="iUTAH_Logan_ODModel.Site" Role="Site" Multiplicity="1" />
+          <End Type="iUTAH_Logan_ODModel.DataValue" Role="DataValue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Site">
+              <PropertyRef Name="SiteID" />
+            </Principal>
+            <Dependent Role="DataValue">
+              <PropertyRef Name="SiteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_SampleMediumCV">
+          <End Type="iUTAH_Logan_ODModel.SampleMediumCV" Role="SampleMediumCV" Multiplicity="1" />
+          <End Type="iUTAH_Logan_ODModel.Variable" Role="Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SampleMediumCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Variable">
+              <PropertyRef Name="SampleMedium" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sites_SiteTypeCV">
+          <End Type="iUTAH_Logan_ODModel.SiteTypeCV" Role="SiteTypeCV" Multiplicity="0..1" />
+          <End Type="iUTAH_Logan_ODModel.Site" Role="Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SiteTypeCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Site">
+              <PropertyRef Name="SiteType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sites_VerticalDatumCV">
+          <End Type="iUTAH_Logan_ODModel.VerticalDatumCV" Role="VerticalDatumCV" Multiplicity="0..1" />
+          <End Type="iUTAH_Logan_ODModel.Site" Role="Site" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VerticalDatumCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Site">
+              <PropertyRef Name="VerticalDatum" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_ValueTypeCV">
+          <End Type="iUTAH_Logan_ODModel.ValueTypeCV" Role="ValueTypeCV" Multiplicity="1" />
+          <End Type="iUTAH_Logan_ODModel.Variable" Role="Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ValueTypeCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Variable">
+              <PropertyRef Name="ValueType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Variables_VariableNameCV">
+          <End Type="iUTAH_Logan_ODModel.VariableNameCV" Role="VariableNameCV" Multiplicity="1" />
+          <End Type="iUTAH_Logan_ODModel.Variable" Role="Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VariableNameCV">
+              <PropertyRef Name="Term" />
+            </Principal>
+            <Dependent Role="Variable">
+              <PropertyRef Name="VariableName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="iUTAH_Logan_ODModelStoreContainer" CdmEntityContainer="LoganODMEntities">
+          <EntitySetMapping Name="DataValues">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.DataValue">
+              <MappingFragment StoreEntitySet="DataValues">
+                <ScalarProperty Name="ValueID" ColumnName="ValueID" />
+                <ScalarProperty Name="DataValue1" ColumnName="DataValue" />
+                <ScalarProperty Name="ValueAccuracy" ColumnName="ValueAccuracy" />
+                <ScalarProperty Name="LocalDateTime" ColumnName="LocalDateTime" />
+                <ScalarProperty Name="UTCOffset" ColumnName="UTCOffset" />
+                <ScalarProperty Name="DateTimeUTC" ColumnName="DateTimeUTC" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="VariableID" ColumnName="VariableID" />
+                <ScalarProperty Name="OffsetValue" ColumnName="OffsetValue" />
+                <ScalarProperty Name="OffsetTypeID" ColumnName="OffsetTypeID" />
+                <ScalarProperty Name="CensorCode" ColumnName="CensorCode" />
+                <ScalarProperty Name="QualifierID" ColumnName="QualifierID" />
+                <ScalarProperty Name="MethodID" ColumnName="MethodID" />
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+                <ScalarProperty Name="SampleID" ColumnName="SampleID" />
+                <ScalarProperty Name="DerivedFromID" ColumnName="DerivedFromID" />
+                <ScalarProperty Name="QualityControlLevelID" ColumnName="QualityControlLevelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeriesCatalogs">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.SeriesCatalog">
+              <MappingFragment StoreEntitySet="SeriesCatalog">
+                <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteType" ColumnName="SiteType" />
+                <ScalarProperty Name="VariableID" ColumnName="VariableID" />
+                <ScalarProperty Name="VariableCode" ColumnName="VariableCode" />
+                <ScalarProperty Name="VariableName" ColumnName="VariableName" />
+                <ScalarProperty Name="Speciation" ColumnName="Speciation" />
+                <ScalarProperty Name="VariableUnitsID" ColumnName="VariableUnitsID" />
+                <ScalarProperty Name="VariableUnitsName" ColumnName="VariableUnitsName" />
+                <ScalarProperty Name="SampleMedium" ColumnName="SampleMedium" />
+                <ScalarProperty Name="ValueType" ColumnName="ValueType" />
+                <ScalarProperty Name="TimeSupport" ColumnName="TimeSupport" />
+                <ScalarProperty Name="TimeUnitsID" ColumnName="TimeUnitsID" />
+                <ScalarProperty Name="TimeUnitsName" ColumnName="TimeUnitsName" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="GeneralCategory" ColumnName="GeneralCategory" />
+                <ScalarProperty Name="MethodID" ColumnName="MethodID" />
+                <ScalarProperty Name="MethodDescription" ColumnName="MethodDescription" />
+                <ScalarProperty Name="SourceID" ColumnName="SourceID" />
+                <ScalarProperty Name="Organization" ColumnName="Organization" />
+                <ScalarProperty Name="SourceDescription" ColumnName="SourceDescription" />
+                <ScalarProperty Name="Citation" ColumnName="Citation" />
+                <ScalarProperty Name="QualityControlLevelID" ColumnName="QualityControlLevelID" />
+                <ScalarProperty Name="QualityControlLevelCode" ColumnName="QualityControlLevelCode" />
+                <ScalarProperty Name="BeginDateTime" ColumnName="BeginDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="BeginDateTimeUTC" ColumnName="BeginDateTimeUTC" />
+                <ScalarProperty Name="EndDateTimeUTC" ColumnName="EndDateTimeUTC" />
+                <ScalarProperty Name="ValueCount" ColumnName="ValueCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.Unit">
+              <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="UnitsID" ColumnName="UnitsID" />
+                <ScalarProperty Name="UnitsName" ColumnName="UnitsName" />
+                <ScalarProperty Name="UnitsType" ColumnName="UnitsType" />
+                <ScalarProperty Name="UnitsAbbreviation" ColumnName="UnitsAbbreviation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Variables">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.Variable">
+              <MappingFragment StoreEntitySet="Variables">
+                <ScalarProperty Name="VariableID" ColumnName="VariableID" />
+                <ScalarProperty Name="VariableCode" ColumnName="VariableCode" />
+                <ScalarProperty Name="VariableName" ColumnName="VariableName" />
+                <ScalarProperty Name="Speciation" ColumnName="Speciation" />
+                <ScalarProperty Name="VariableUnitsID" ColumnName="VariableUnitsID" />
+                <ScalarProperty Name="SampleMedium" ColumnName="SampleMedium" />
+                <ScalarProperty Name="ValueType" ColumnName="ValueType" />
+                <ScalarProperty Name="IsRegular" ColumnName="IsRegular" />
+                <ScalarProperty Name="TimeSupport" ColumnName="TimeSupport" />
+                <ScalarProperty Name="TimeUnitsID" ColumnName="TimeUnitsID" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+                <ScalarProperty Name="GeneralCategory" ColumnName="GeneralCategory" />
+                <ScalarProperty Name="NoDataValue" ColumnName="NoDataValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataTypeCVs">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.DataTypeCV">
+              <MappingFragment StoreEntitySet="DataTypeCV">
+                <ScalarProperty Name="Definition" ColumnName="Definition" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SampleMediumCVs">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.SampleMediumCV">
+              <MappingFragment StoreEntitySet="SampleMediumCV">
+                <ScalarProperty Name="Definition" ColumnName="Definition" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sites">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.Site">
+              <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="SiteType" ColumnName="SiteType" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="County" ColumnName="County" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PosAccuracy_m" ColumnName="PosAccuracy_m" />
+                <ScalarProperty Name="LocalProjectionID" ColumnName="LocalProjectionID" />
+                <ScalarProperty Name="LocalY" ColumnName="LocalY" />
+                <ScalarProperty Name="LocalX" ColumnName="LocalX" />
+                <ScalarProperty Name="VerticalDatum" ColumnName="VerticalDatum" />
+                <ScalarProperty Name="Elevation_m" ColumnName="Elevation_m" />
+                <ScalarProperty Name="LatLongDatumID" ColumnName="LatLongDatumID" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteTypeCVs">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.SiteTypeCV">
+              <MappingFragment StoreEntitySet="SiteTypeCV">
+                <ScalarProperty Name="Definition" ColumnName="Definition" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ValueTypeCVs">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.ValueTypeCV">
+              <MappingFragment StoreEntitySet="ValueTypeCV">
+                <ScalarProperty Name="Definition" ColumnName="Definition" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VariableNameCVs">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.VariableNameCV">
+              <MappingFragment StoreEntitySet="VariableNameCV">
+                <ScalarProperty Name="Definition" ColumnName="Definition" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VerticalDatumCVs">
+            <EntityTypeMapping TypeName="iUTAH_Logan_ODModel.VerticalDatumCV">
+              <MappingFragment StoreEntitySet="VerticalDatumCV">
+                <ScalarProperty Name="Definition" ColumnName="Definition" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ODMModel">
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.DataValue" Width="1.5" PointX="5.25" PointY="1" Height="4.480205078125" IsExpanded="true" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.SeriesCatalog" Width="1.5" PointX="0.75" PointY="6.75" Height="6.9801236979166665" IsExpanded="true" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.Unit" Width="1.5" PointX="0.75" PointY="2.25" Height="2.1725878906249991" IsExpanded="true" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.Variable" Width="1.5" PointX="3" PointY="1.25" Height="4.0956022135416656" IsExpanded="true" />
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_DataValues_Variables" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="3.4612532552083328" />
+          <ConnectorPoint PointX="5.25" PointY="3.4612532552083328" />
+        </AssociationConnector>
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_Variables_Units" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="3.6391174316406247" />
+          <ConnectorPoint PointX="3" PointY="3.6391174316406247" />
+        </AssociationConnector>
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_Variables_Units1" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.8820587158203121" />
+          <ConnectorPoint PointX="3" PointY="2.8820587158203121" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.DataTypeCV" Width="1.5" PointX="0.75" PointY="0.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.SampleMediumCV" Width="1.5" PointX="0.75" PointY="16.125" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.Site" Width="1.5" PointX="7.625" PointY="8.25" Height="4.6725065104166674" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.SiteTypeCV" Width="1.5" PointX="5.375" PointY="9.75" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.ValueTypeCV" Width="1.5" PointX="0.75" PointY="18.5" Height="1.595683593749996" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.VariableNameCV" Width="1.5" PointX="0.75" PointY="20.75" Height="1.595683593749996" />
+        <EntityTypeShape EntityType="iUTAH_Logan_ODModel.VerticalDatumCV" Width="1.5" PointX="5.375" PointY="12.75" Height="1.5956835937500031" />
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_Variables_DataTypeCV" >
+          <ConnectorPoint PointX="2.25" PointY="1.7978417968749998" />
+          <ConnectorPoint PointX="3" PointY="1.7978417968749998" />
+        </AssociationConnector>
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_DataValues_Sites" >
+          <ConnectorPoint PointX="8.375" PointY="8.25" />
+          <ConnectorPoint PointX="8.375" PointY="3.3362532552083328" />
+          <ConnectorPoint PointX="6.75" PointY="3.3362532552083328" />
+        </AssociationConnector>
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_Variables_SampleMediumCV" >
+          <ConnectorPoint PointX="2.25" PointY="16.922841796874998" />
+          <ConnectorPoint PointX="3.2604141666666666" PointY="16.922841796874998" />
+          <ConnectorPoint PointX="3.4270808333333336" PointY="16.922841796874998" />
+          <ConnectorPoint PointX="3.75" PointY="16.922841796874998" />
+          <ConnectorPoint PointX="3.75" PointY="6.1148079427083317" />
+        </AssociationConnector>
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_Sites_SiteTypeCV" >
+          <ConnectorPoint PointX="6.875" PointY="10.547841796875" />
+          <ConnectorPoint PointX="7.625" PointY="10.547841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_Sites_VerticalDatumCV" >
+          <ConnectorPoint PointX="6.875" PointY="13.634095552083334" />
+          <ConnectorPoint PointX="8.375" PointY="13.634095552083334" />
+          <ConnectorPoint PointX="8.375" PointY="12.922506510416667" />
+        </AssociationConnector>
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_Variables_ValueTypeCV" >
+          <ConnectorPoint PointX="2.25" PointY="19.297841796874998" />
+          <ConnectorPoint PointX="3.3437475" PointY="19.297841796874998" />
+          <ConnectorPoint PointX="3.3437475" PointY="6.1148079427083317" />
+        </AssociationConnector>
+        <AssociationConnector Association="iUTAH_Logan_ODModel.FK_Variables_VariableNameCV" >
+          <ConnectorPoint PointX="2.25" PointY="21.547841796874998" />
+          <ConnectorPoint PointX="4.1562525" PointY="21.547841796874998" />
+          <ConnectorPoint PointX="4.1562525" PointY="6.1148079427083317" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
