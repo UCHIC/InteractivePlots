@@ -44,7 +44,14 @@ namespace PlotGen.Properties {
                 return ((string)(this["LittleBearODMConnectionString"]));
             }
         }
-
-       
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\DEV\\PlottingUtils\\src\\LoganLittleBear\\PlotGen\\bin\\Debug\\images")]
+        public string imagePath {
+            get {
+                return ((string)(this["imagePath"]));
+            }
+        }
     }
 }

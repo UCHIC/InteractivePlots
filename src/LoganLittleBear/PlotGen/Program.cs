@@ -205,7 +205,7 @@ namespace PlotGen
             Bitmap bm = new Bitmap(1, 1);
             using (Graphics g = Graphics.FromImage(bm))
                 graphPaneMeas.AxisChange(g);
-            graphPaneMeas.GetImage().Save(Properties.Resources.imagePath + "\\" + @"measured_" + site_code + "_" + second_site + "_" + var_code + ".png", ImageFormat.Png);
+            graphPaneMeas.GetImage().Save(Properties.Settings.Default.imagePath + "\\" + @"measured_" + site_code + "_" + second_site + "_" + var_code + ".png", ImageFormat.Png);
            /* string imageName = @"measured_" + site_code + "_" + second_site + "_" + var_code;
             graphPaneTyp.GetImage().Save(Properties.Resources.imagePath + "\\" + imageName + ".jpg");*/
 
@@ -214,7 +214,7 @@ namespace PlotGen
             Bitmap bm2 = new Bitmap(1, 1);
             using (Graphics g2 = Graphics.FromImage(bm2))
                 graphPaneTyp.AxisChange(g2);
-            graphPaneTyp.GetImage().Save(Properties.Resources.imagePath + "\\"+ @"typical_" + site_code + "_" + second_site + "_" + var_code + ".png", ImageFormat.Png);
+            graphPaneTyp.GetImage().Save(Properties.Settings.Default.imagePath + "\\"+ @"typical_" + site_code + "_" + second_site + "_" + var_code + ".png", ImageFormat.Png);
            /* imageName = @"typical_" + site_code + "_" + second_site + "_" + var_code;
             graphPaneTyp.GetImage().Save(Properties.Resources.imagePath + "\\" + imageName + ".jpg");*/
             
