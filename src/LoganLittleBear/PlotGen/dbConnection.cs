@@ -29,14 +29,54 @@ namespace PlotGen
         }
 
 
-        public DataTable getDVCstm(string site_code, string var_code, DateTime startdate, DateTime enddate)
+        /*public DataTable getDVCstm(string site_code, string var_code, DateTime startdate, DateTime enddate)
         {
             var result = (from DV in this.DataValues where DV.Site.SiteCode == site_code && DV.Variable.VariableCode == var_code && DV.CensorCode == "nc" && DV.LocalDateTime >= startdate && DV.LocalDateTime <= enddate orderby DV.LocalDateTime select new { DV.DataValue1, DV.LocalDateTime }).AsQueryable();
             
             return LINQToDataTable(result);
-        }
-        
+        }*/
 
+        public DataTable getDVCstm(string site_code, string var_code, DateTime startdate, DateTime enddate, double min, double max)
+        {
+
+            double NoDV = getNoDV(var_code);
+           // (from DV in this.DataValues 
+                //where DV.Site.SiteCode == site_code && DV.Variable.VariableCode == var_code && DV.CensorCode == "nc" 
+                //&& DV.LocalDateTime >= startdate && DV.LocalDateTime <= enddate 
+            //orderby DV.LocalDateTime 
+            //select new { DV.DataValue1, DV.LocalDateTime }).AsQueryable();
+
+
+
+
+            var result = (from DV in this.DataValues
+                          where DV.Site.SiteCode == site_code && DV.Variable.VariableCode == var_code && DV.CensorCode == "nc" && DV.LocalDateTime >= startdate && DV.LocalDateTime <= enddate && DV.DataValue1 != NoDV && DV.DataValue1 > min && DV.DataValue1 < max
+                          //orderby DV.LocalDateTime
+                          group DV by new { DV.LocalDateTime.Month, DV.LocalDateTime.Day, DV.LocalDateTime.Year }
+                              into DailyAvg
+                              orderby DailyAvg.Key.Month, DailyAvg.Key.Day, DailyAvg.Key.Year
+                              select new
+                              {
+                                  Month = DailyAvg.Key.Month,
+                                  Day = DailyAvg.Key.Day,
+                                  Year = DailyAvg.Key.Day,
+                                  DataValue1 = DailyAvg.Average(DV => DV.DataValue1),
+                                  LocalDateTime = DailyAvg.Min(DV => DV.LocalDateTime)
+
+                              }
+
+
+                          ).AsQueryable();
+
+
+            //System.Console.WriteLine( result);
+
+
+            //result["DataValues"].Aggregate();
+            return LINQToDataTable(result);
+
+
+        }
         public DataTable getDVCstmAvg(string site_code, string var_code, double min, double max)
         {
 

@@ -151,7 +151,7 @@ namespace PlotGen
             graphPaneMeas.XAxis.Type = AxisType.Date;
             formatXaxis(ref graphPaneMeas);
             
-            LineItem upperSite_M = new LineItem(site_code == "LR_WaterLab_AA" ? "Logan River Upper Site" : "Little Bear River Upper Site", MeasUpper, Color.Red, SymbolType.None, graphWidth);
+            LineItem upperSite_M = new LineItem(site_code == "LR_WaterLab_AA" ? "Logan River Upper Site" : "Little Bear River Upper Site", MeasUpper, Color.Black, SymbolType.None, graphWidth);
             LineItem lowerSite_M = new LineItem(site_code == "LR_WaterLab_AA" ? "Logan River Lower Site" : "Little Bear River Lower Site", MeasLower, Color.Blue, SymbolType.None, graphWidth);
             graphPaneMeas.CurveList.Add(upperSite_M);
             graphPaneMeas.CurveList.Add(lowerSite_M);
@@ -180,7 +180,7 @@ namespace PlotGen
             graphPaneTyp.XAxis.Type = AxisType.Date;
             formatXaxis(ref graphPaneTyp);
             
-            LineItem upperSite_T = new LineItem(site_code == "LR_WaterLab_AA" ? "Logan River Upper Site" : "Little Bear River Upper Site", TypAvgUpper, Color.Red, SymbolType.None, graphWidth);
+            LineItem upperSite_T = new LineItem(site_code == "LR_WaterLab_AA" ? "Logan River Upper Site" : "Little Bear River Upper Site", TypAvgUpper, Color.Black, SymbolType.None, graphWidth);
             graphPaneTyp.CurveList.Add(upperSite_T);
             LineItem lowerSite_T = new LineItem(site_code == "LR_WaterLab_AA" ? "Logan River Lower Site" : "Little Bear River Lower Site", TypAvgLower, Color.Blue, SymbolType.None, graphWidth);
             graphPaneTyp.CurveList.Add(lowerSite_T);
@@ -252,7 +252,7 @@ namespace PlotGen
 
             PointPairList graphPoints = new PointPairList();
 
-            DataTable values1yr = dataObject.getDVCstm(site_code, var_code, dStart, dEnd);
+            DataTable values1yr = dataObject.getDVCstm(site_code, var_code, dStart, dEnd, lBnd, upBnd);
             Double NoDV = dataObject.getNoDV(var_code);
 
             double testBnds;
