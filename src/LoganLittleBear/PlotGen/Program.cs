@@ -114,16 +114,7 @@ namespace PlotGen
             /*
              * clsRemoveDataGaps.missingValues(ref ptList);
 
-            List<object> tmplist = plotData.AsEnumerable().Select(x => x["DataValue"]).Distinct().ToList();
-
-            //get a list of all sections of code we dontwant to plot. > 1 day of the same data values
-            foreach (clsInterval inter in clsRemoveDataGaps.calcGaps(ref tmplist, ref ptList))
-            {
-                for (int j = inter.Start; j < inter.End; j++)
-                {
-                    ptList[j].Y = double.NaN;
-                }
-            }
+            
              */
             double lBnd = Convert.ToDouble( meta[3]);
             double upBnd = Convert.ToDouble(meta[4]);
@@ -139,11 +130,7 @@ namespace PlotGen
             //MeasLower = cleanValues(MeasLower, dataObject.getDVCstm(site_code, var_code, dStart, dEnd));
             PointPairList TypAvgLower = getDataTyp(second_site, var_code, dataObject, lBnd, upBnd); //getDailyAvg(MeasLower);
 
-            /*foreach (var point in TypAvgLower)
-            {
-                System.Console.WriteLine("Date: " + XDate.XLDateToDateTime(point.X) + " Value: "+ point.Y);
-            }*/
-            
+           
 
             //Measured Graph. -- Display all data. From January 1st. --
             GraphPane graphPaneMeas = new GraphPane(new Rectangle(0, 0, 1680, 1050), "Measured Values", meta[1], meta[2]);
@@ -157,6 +144,7 @@ namespace PlotGen
             graphPaneMeas.CurveList.Add(lowerSite_M);
             double miny = 99999;
             double maxy = -99999;
+            
             foreach (CurveItem c in graphPaneMeas.CurveList)
             {
 
@@ -206,8 +194,8 @@ namespace PlotGen
             using (Graphics g = Graphics.FromImage(bm))
                 graphPaneMeas.AxisChange(g);
             graphPaneMeas.GetImage().Save(Properties.Settings.Default.imagePath + "\\" + @"measured_" + site_code + "_" + second_site + "_" + var_code + ".png", ImageFormat.Png);
-           /* string imageName = @"measured_" + site_code + "_" + second_site + "_" + var_code;
-            graphPaneTyp.GetImage().Save(Properties.Resources.imagePath + "\\" + imageName + ".jpg");*/
+           
+            
 
 
 
@@ -215,8 +203,7 @@ namespace PlotGen
             using (Graphics g2 = Graphics.FromImage(bm2))
                 graphPaneTyp.AxisChange(g2);
             graphPaneTyp.GetImage().Save(Properties.Settings.Default.imagePath + "\\"+ @"typical_" + site_code + "_" + second_site + "_" + var_code + ".png", ImageFormat.Png);
-           /* imageName = @"typical_" + site_code + "_" + second_site + "_" + var_code;
-            graphPaneTyp.GetImage().Save(Properties.Resources.imagePath + "\\" + imageName + ".jpg");*/
+           
             
                  
 
@@ -236,13 +223,12 @@ namespace PlotGen
                 }
             }
 
-            //clsRemoveDataGaps.calcGaps
+            
             return values;
         }
 
         static DateTime convDate(string date)
         {
-            //DateTime dt = Convert.ToDateTime("10/4/2013 10:30:00 PM");
             DateTime dt = Convert.ToDateTime(date);            
             return dt;
         }
@@ -289,14 +275,13 @@ namespace PlotGen
             PointPairList graphPoints = new PointPairList();
 
             DataTable values1yr = dataObject.getDVCstmAvg(site_code, var_code, lBnd, upBnd);
-            //System.Console.WriteLine("Site: " + site_code + " Variable: " + var_code);
             Double NoDV = dataObject.getNoDV(var_code);
             foreach (DataRow row in values1yr.Rows)
             {
                 DateTime dateShowing;
                 try
                 {
-                    dateShowing = new DateTime(DateTime.Now.Year, (int)row["Month"], (int)row["Day"]);//convDate(row["DateTime"].ToString());// 
+                    dateShowing = new DateTime(DateTime.Now.Year, (int)row["Month"], (int)row["Day"]);
                 }
                 catch (Exception ex)
                 {
@@ -304,20 +289,12 @@ namespace PlotGen
                     dateShowing = new DateTime(DateTime.Now.Year, (int)row["Month"], ((int)row["Day"]) - 1, 23, 59, 59); 
                 }
 
-                //System.Console.WriteLine("Date: " + dateShowing.ToString() + " Value: " + row["DataValue1"]);
 
                 try
                 {
                     double? curValue = (double)row["DataValue1"];
                     double curDate = (double)new XDate(dateShowing.Year, dateShowing.Month, dateShowing.Day, dateShowing.Hour, dateShowing.Minute, dateShowing.Second);
-                    //if value should not be plotted set it to null
-                    //if (curValue == NoDV || curValue < lBnd || curValue > upBnd)
-                    //{
-                    //    curValue = null;
-                     //   graphPoints.Add(curDate, curValue ?? double.NaN);
-                    //}
-                    //else
-                        graphPoints.Add(curDate, curValue.Value);
+                    graphPoints.Add(curDate, curValue.Value);
                     
                 }
                 catch(Exception ex )
@@ -334,25 +311,16 @@ namespace PlotGen
             DateTime maxX = new DateTime(DateTime.Now.Year, 12,31);
             double rangeX;
             rangeX = maxX.ToOADate() - minX.ToOADate();
-            gPane.Legend.Position = LegendPos.InsideTopRight;
-            
-            //gPane.XAxis.MajorGrid.IsVisible = true;
+            gPane.Legend.Position = LegendPos.InsideTopRight;            
            
-            //gPane.XAxis.Type = AxisType.Date;
-            //graphPaneMeas.XAxis.Type = AxisType.Date;
             
             gPane.XAxis.Scale.Min = minX.ToOADate() - (.025 * rangeX);
             gPane.XAxis.Scale.Max = maxX.ToOADate() + (.025 * rangeX);
-            //gPane.XAxis.Scale.FormatAuto = true;
             gPane.XAxis.Scale.MajorUnit = ZedGraph.DateUnit.Month;
             gPane.XAxis.Scale.MinorUnit = ZedGraph.DateUnit.Day;
-            //gPane.XAxis.Scale.BaseTic = 12;
             gPane.XAxis.Scale.Format = "MMMM";
             
-            //gPane.XAxis.MajorTic.Size = 12;    
             
-            //gPane.XAxis.Title.Text = "Date Test9";
-            //gPane.XAxis.IsVisible = true;
         }
         static void formatYaxis(ref GraphPane gPane, double maxY = 50, double minY = 0)
         {
@@ -361,10 +329,8 @@ namespace PlotGen
             double testmin = (minY == 0 ? 0 : minY - (.01 * rangeY));
             gPane.YAxis.Scale.Min = (testmin < 0 ? 0 : testmin);
             gPane.YAxis.Scale.Max = maxY + (.1 * rangeY);
-            //gPane.YAxis.Scale.Min = 0;
             
             gPane.YAxis.MajorGrid.IsVisible = true;
-            //gPane.YAxis.MinorGrid.IsVisible = false;
             
             gPane.YAxis.MajorGrid.Color = System.Drawing.Color.Gray;
             gPane.YAxis.Type = ZedGraph.AxisType.Linear;

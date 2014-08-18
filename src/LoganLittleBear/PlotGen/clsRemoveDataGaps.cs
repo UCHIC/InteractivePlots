@@ -7,14 +7,7 @@ namespace PlotGen
 {
     static class clsRemoveDataGaps
     {
-        //private List<clsInterval> gaps;
-        //private List<double> uniqueVals;
-        //public clsRemoveDataGaps(List<double> vals, ref ZedGraph.PointPairList)
-        //{
-        //    uniqueVals = vals;
-
-
-        //}
+        
         static public void missingValues( ref ZedGraph.PointPairList list){
             for (int i = 1; i < list.Count; i++)
             {
