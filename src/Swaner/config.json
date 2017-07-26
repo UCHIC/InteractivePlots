@@ -1,0 +1,59 @@
+{
+  "connection":
+    "data source=waterdata.usu.edu;initial catalog=SwanerODM;user id=TSA;password=TSA!wat3r",
+    
+
+  "bounds":[
+    {
+      "var": "pH_Avg",
+      "min": 3,
+      "max": 14
+    },
+    {
+      "var": "Cond_Avg",
+      "min": 50,
+      "max": 3000
+    },
+    {
+      "var": "WLevel_ft_Avg",
+      "min": 0.01,
+      "max": 10
+    },
+    {
+      "var": "Turb_Median",
+      "min": 5,
+      "max": 1650
+    },
+    {
+      "var": "LDO_mgl_Avg",
+      "min": 0.01,
+      "max": 16
+    },
+    {
+      "var": "MS_WTemp_C_Avg",
+      "min": -5,
+      "max": 40
+    },
+    {
+      "var": "00060",
+      "min": 0.01,
+      "max": 10000
+    },
+    {
+      "var": "Sal_Avg",
+      "min": 0.01,
+      "max": 10000
+    }
+  ],
+  "multvarbounds":[ 
+    {
+      "var1": "LDO_mgl_Avg",
+      "min1": 0.01,
+      "max1": 16,
+      "var2": "MS_WTemp_C_Avg",
+      "min2": -5,
+      "max2": 40
+    }
+  ]
+  
+}
