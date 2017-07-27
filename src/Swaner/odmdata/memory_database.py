@@ -1,15 +1,11 @@
 import timeit
-import logging
-from odmtools.common.logger import LoggerTool
-from odmtools.odmservices import SeriesService
-from odmtools.odmdata import DataValue
+
+from src.Swaner.odmservices import SeriesService
+from src.Swaner.odmdata import DataValue
 from sqlalchemy import update, bindparam
-from odmtools.common.taskServer import TaskServerMP
 from multiprocessing import cpu_count, freeze_support
 
-# tool = LoggerTool()
-# logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
-logger =logging.getLogger('main')
+
 
 class MemoryDatabase(object):
     ### this code should be changed to work with the database abstract layer so that sql queries are not in the code
@@ -44,7 +40,7 @@ class MemoryDatabase(object):
     ##############
 
     def getDataValuesDF(self):
-        logging.debug("update in memory dataframe")
+        print("update in memory dataframe")
 
         '''
         if self.taskserver:
@@ -55,7 +51,7 @@ class MemoryDatabase(object):
         '''
         self.updateDF()
         # pick up thread here before it is needed
-        logging.debug("done updating memory dataframe")
+        print("done updating memory dataframe")
         return self.df
 
     def getDataValues(self):
@@ -201,7 +197,7 @@ class MemoryDatabase(object):
         :return: nothing
         """
         if not self.editLoaded:
-            logger.debug("Load series from db")
+            print("Load series from db")
             self.series = self.series_service.get_series_by_id(seriesID)
             self.df = self.series_service.get_values_by_series(seriesID)
             self.editLoaded = True
@@ -217,9 +213,9 @@ class MemoryDatabase(object):
             if len(self.df)>0:
                 self.df.to_sql(name="DataValues", if_exists='replace', con=self.mem_service._session_factory.engine,
                                index=False)#,flavor='sqlite', chunksize=10000)
-                logger.debug("done loading database")
+                print("done loading database")
             else:
-                logger.debug("no data in series")
+                print("no data in series")
 
     def changeSeriesIDs(self, var=None, qcl=None, method=None):
         """
@@ -232,15 +228,15 @@ class MemoryDatabase(object):
 
         query = self.mem_service._edit_session.query(DataValue)
         if var is not None:
-            logger.debug(var)
+            print(var)
             query.update({DataValue.variable_id: var})
 
         if method is not None:
-            logger.debug(method)
+            print(method)
             query.update({DataValue.method_id: method})
         # check that the code is not zero
         # if qcl is not None and qcl.code != 0:
         if qcl is not None:
-            logger.debug(qcl)
+            print(qcl)
             query.update({DataValue.quality_control_level_id: qcl})
 

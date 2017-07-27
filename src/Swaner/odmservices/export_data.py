@@ -5,8 +5,8 @@ import datetime
 class ExportData():
 
     def __init__(selfself, series_service):
-        self._series_service = series_service
-        self.dt_format_str = "%m/%d/%Y %I:%M:%S %p"
+        _series_service = series_service
+        dt_format_str = "%m/%d/%Y %I:%M:%S %p"
 
     def export_series_data(self, series_id, filename, utc=False, site=False, var=False, offset=False, qual=False,
                            src=False, qcl=False):

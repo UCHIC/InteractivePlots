@@ -1,29 +1,12 @@
-import logging
+import pandas as pd
 
 
 from sqlalchemy import distinct, func
 
 
-from odmtools.odmdata import SessionFactory
-from odmtools.odmdata import Site
-from odmtools.odmdata import Variable
-from odmtools.odmdata import Unit
-from odmtools.odmdata import Series
-from odmtools.odmdata import DataValue
-from odmtools.odmdata import Qualifier
-from odmtools.odmdata import OffsetType
-from odmtools.odmdata import Sample
-from odmtools.odmdata import Method
-from odmtools.odmdata import QualityControlLevel
-from odmtools.odmdata import ODMVersion
-from odmtools.odmdata import Source
-from odmtools.odmdata import ISOMetadata
-from odmtools.common.logger import LoggerTool
-import pandas as pd
+from src.Swaner.odmdata import SessionFactory, Site, Variable, Unit, Series, DataValue, Qualifier, OffsetType, Sample, Method, \
+    QualityControlLevel, ODMVersion, Source, ISOMetadata
 
-# tool = LoggerTool()
-# logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
-logger =logging.getLogger('main')
 
 class SeriesService():
     # Accepts a string for creating a SessionFactory, default uses odmdata/connection.cfg
@@ -294,6 +277,13 @@ class SeriesService():
         """
         try:
             selectedSeries = self._edit_session.query(Series).filter_by(site_id=site_id).order_by(Series.id).all()
+            return selectedSeries
+        except:
+            return None
+
+    def get_series_by_variable_code(self, variable_code):
+        try:
+            selectedSeries = self._edit_session.query(Series).filter_by(variable_code=variable_code).order_by(Series.id).all()
             return selectedSeries
         except:
             return None

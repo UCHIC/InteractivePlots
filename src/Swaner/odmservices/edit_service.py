@@ -1,21 +1,16 @@
 import sqlite3
 
 
-from odmtools.odmdata import DataValue
+from src.Swaner.odmdata import DataValue
 from series_service import SeriesService
 
-from odmtools.odmdata import series as series_module
+from src.Swaner.odmdata import series as series_module
 
 import pandas as pd
 import datetime
 import numpy as np
 
-import logging
-from odmtools.common.logger import LoggerTool
 
-# tool = LoggerTool()
-# logger = tool.setupLogger(__name__, __name__ + '.log', 'w', logging.DEBUG)
-logger =logging.getLogger('main')
 
 class time(object):
     time_units = {
@@ -52,17 +47,17 @@ class EditService():
             self.memDB= connection
 
         elif connection_string is not "" and connection is None:
-            from odmtools.odmdata import MemoryDatabase
+            from ..odmdata import MemoryDatabase
             self.memDB= MemoryDatabase()
             self.memDB.set_series_service(SeriesService(connection_string, False))
 
 
         else:
-            logger.error("must send in either a remote db connection string or a memory database object")
+            print("must send in either a remote db connection string or a memory database object")
 
-        logger.debug("Initializing Memory Database")
+        print("Initializing Memory Database")
         self.memDB.initEditValues(series_id)
-        logger.debug("Finished Initializing Memory Database")
+        print("Finished Initializing Memory Database")
         self._populate_series()
         self.reset_filter()
 
