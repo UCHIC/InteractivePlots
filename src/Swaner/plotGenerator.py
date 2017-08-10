@@ -4,6 +4,7 @@
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 
@@ -37,15 +38,16 @@ class plotGenerator:
             #day
             st= Now-timedelta(days=2)
             self.plotTimeSeries(sc, datetime(st.year, st.month, st.day, 0, 0, 0),
-                                datetime(st.year, st.month, st.day, 11, 59, 59))
+                                datetime(st.year, st.month, st.day, 11, 59, 59), time="day")
             #week
-            self.plotTimeSeries(sc, sc.end_date_time-timedelta(days=7), sc.end_date_time)
+            self.plotTimeSeries(sc, sc.end_date_time-timedelta(days=7), sc.end_date_time, time="week")
+
             #year
-            self.plotTimeSeries(sc, datetime(sc.end_date_time.year, 01, 01), sc.end_date_time)
+            self.plotTimeSeries(sc, datetime(sc.end_date_time.year-1, 01, 01), sc.end_date_time, time="year")
 
 
 
-    def plotTimeSeries(self, series_catalog, start, end ):
+    def plotTimeSeries(self, series_catalog, start, end, time ):
         """
             //This function plots the Time Series graph for the selected data series
             //Inputs:  site -> Code - Name of the site to plot -> used for the title
@@ -53,6 +55,7 @@ class plotGenerator:
             //         varUnits -> (units) of the variable abbreviated -> used for the y-axis label
             //         startDate -> Start Date of the data -> for calculating Scroll padding
             //         endDate -> End Date of the data -> for calculating Scroll padding
+            //         time -> string of month, day or year
             //Outputs: None
         :param series_catalog:
         :param start:
@@ -64,13 +67,14 @@ class plotGenerator:
         print start
         print end
 
-        myplot = singlePlotData()
+        myplot = singlePlotData(series_catalog, self.dbconn, start, end)
 
         myplot.noDV = self.dbconn.get_variable_by_code(series_catalog.variable_code).no_data_value
         myplot.bounds = self.data["bounds"][series_catalog.variable_code]
         myplot.series_catalog = series_catalog
         myplot.start = start
         myplot.end = end
+        myplot.dbconn = self.dbconn
 
 
         try:
@@ -80,43 +84,56 @@ class plotGenerator:
                 pass
             # plot that says "No Data"
             else:
+                myplot.values = values[
+                    (values["DataValue"] > myplot.bounds["min"]) & (values["DataValue"] < myplot.bounds["max"])]
 
-                myplot.values = values[(values["DataValue"] > myplot.bounds["min"]) & (values["DataValue"] < myplot.bounds["max"])]
 
-                fig, ax = plt.subplots() # plt.figure(1, figsize=(1600, 800))
-                #ax = fig.axes
-                ax.plot_date(myplot.values.index, myplot.values['DataValue'], "-s",
-                             color="blue", xdate=True, label=myplot.series_catalog.variable_name, linewidth=5,
-                             alpha=1, markersize=5.5)
-                ax.set_xlabel('Date')
+                fig, ax = plt.subplots(figsize=(16, 8))
 
-                imageName = "mytest"#myplot.create_title()
-                fileName = self.data["imagepath"] + "\\" + imageName
+                if time == 'year':
+                    # ax.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
+                    #              color="black", xdate=True, label=start.year, linewidth=2,
+                    #              alpha=1)
+                    tempvals = myplot.values
+
+                    myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
+                                           columns=tempvals.Year,
+                                           values="DataValue")
+
+                    myplot.values.plot(ax = ax, color = ["blue", "black"] )
+                    ax.set_xlabel('Date')
+                    labels = ["January", "March", "July", "September", "November"]
+                    ax.set_xticklabels(labels)
+
+                    plt.legend()
+                else:
+
+                    ax.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
+                                 color="blue", xdate=True, label=myplot.series_catalog.variable_name, linewidth=2,
+                                 alpha=1)
+                    if time == "day":
+                        ax.set_xlabel('Time')
+
+                    else:
+                        ax.set_xlabel('Date')
+                ax.set_ylabel(myplot.axis_title())
+                fig.suptitle(myplot.create_title(), fontsize=20)
+                imageName = myplot.create_filename( time)
+
+                fileName = self.data["imagepath"].encode('latin-1') + "\\" + imageName
                 try:
                     plt.savefig(fileName+ ".png", bbox_inches='tight')
                     # import Image
                     # Image.open(fileName+ ".png").save(fileName+ ".jpg", "JPEG")
-
-
                 except Exception as ex:
                     print "An error occured while creating the plot. \n Message = %s" % ex
 
 
-
+                plt.cla()
+                plt.clf()
+                plt.close()
 
         except Exception as ex:
             print ex
 
 
-
-
-        #
-        # labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
-        # fracs = [15, 30, 45, 10]
-        #
-        # explode = (0, 0.05, 0, 0)
-        # pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
-        # title('Raining Hogs and Dogs', bbox={'facecolor': '0.8', 'pad': 5})
-        #
-        # # show()  # Actually, don't show, just save to foo.png
-        # savefig('foo.png', bbox_inches='tight')
