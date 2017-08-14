@@ -5,7 +5,7 @@ class PlotData:
     series_catalog =None
     values = None
     dbconn =None
-
+    time = None
     start = None
     end = None
     xaxis= None
@@ -37,7 +37,7 @@ class PlotData:
             # title = unit.name
             title = self.series_catalog.variable_name +" in " + unit.abbreviation
         # label = "%s in %s" %(title, unit.abbreviation)
-        return title 
+        return title
 
     def clarify_variable(self, variablename):
         vn = variablename.lower()
@@ -54,32 +54,35 @@ class singlePlotData(PlotData):
         self.dbconn = dbconn
         self.start = start
         self.end = end
-        pass
+
 
     def create_title(self):
-        DateRange = self.start.strftime("MM/dd/yyyy") + "-" + self.end.strftime("MM/dd/yyyy")
 
-        if self.start.year ==self.end.year:
-            Title = "Measured %s in East Canyon Creek: %s" % (self.clarify_variable(self.series_catalog.variable_name), DateRange)
-        else :
+        if self.time == "year":
             Title = "Measured %s in East Canyon Creek" % self.clarify_variable(self.series_catalog.variable_name)
+        else:
+        # elif self.time =="week":
+            DateRange = self.start.strftime("%m/%d/%Y") + "-" + self.end.strftime("%m/%d/%Y")
+            Title = "Measured %s in East Canyon Creek: %s" % (
+                self.clarify_variable(self.series_catalog.variable_name), DateRange)
+        # else:
+        #     DateRange = self.start.strftime("%m/%d/%Y")
+        #     Title = Title = "Measured %s in East Canyon Creek: %s" % (
+        #         self.clarify_variable(self.series_catalog.variable_name), DateRange)
 
         return Title
 
-    def create_filename(self,  time):
+    def create_filename(self):
 
         # if (time == "Year")
         #TODO yearly
 
         abbrev = "(" + self.dbconn.get_unit_by_id(self.series_catalog.variable_units_id).abbreviation + ")"
 
-
         # return (self.axis_title(self.series_catalog, dbconn), abbrev+time)
-        return self.axis_title().replace(' ', '_') + "_" + abbrev +"_"+time
+        # return self.axis_title().replace(' ', '_').replace("/", "") + "_" + abbrev.replace("/", "") +"_"+self.time
 
-    def x_axis(self):
-        pass
-
+        return self.axis_title().replace(' ', '_').replace("/", "") + "_" + self.time
 
 
 

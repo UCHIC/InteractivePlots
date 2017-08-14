@@ -236,7 +236,7 @@ class SeriesService():
             result = self._edit_session.query(Method).filter_by(description=method_code).first()
         except:
             result = None
-            logger.error("method not found")
+            print("method not found")
         return result
 
     def get_offset_types_by_series_id(self, series_id):
@@ -421,16 +421,22 @@ class SeriesService():
         """
         series = self.get_series_by_id(seriesID)
 
+
         DataValues = [
             (dv.data_value, dv.local_date_time, dv.censor_code, dv.local_date_time.strftime('%m'),
                 dv.local_date_time.strftime('%Y'))
             for dv in series.data_values
-            if dv.data_value != noDataValue if dv.local_date_time >= startDate if dv.local_date_time <= endDate
+            # if dv.data_value != noDataValue if dv.local_date_time >= startDate if dv.local_date_time <= endDate
+            if dv.local_date_time >= startDate if dv.local_date_time <= endDate
         ]
-        data = pd.DataFrame(DataValues, columns=["DataValue", "LocalDateTime", "CensorCode", "Month", "Year"])
-        data.set_index(data['LocalDateTime'], inplace=True)
-        data["Season"] = data.apply(self.calcSeason, axis=1)
-        return data
+        if len(DataValues)>0:
+            data = pd.DataFrame(DataValues, columns=["DataValue", "LocalDateTime", "CensorCode", "Month", "Year"])
+            data.set_index(data['LocalDateTime'], inplace=True)
+            data["Season"] = data.apply(self.calcSeason, axis=1)
+            return data
+        else:
+            print "No Data Returned"
+        return None
 
 
 
@@ -500,10 +506,10 @@ class SeriesService():
             except Exception as e:
                 self._edit_session.rollback()
                 raise e
-            logger.info("Existing File was overwritten with new information")
+            print("Existing File was overwritten with new information")
             return True
         else:
-            logger.debug("There wasn't an existing file to overwrite, please select 'Save As' first")
+            print("There wasn't an existing file to overwrite, please select 'Save As' first")
             # there wasn't an existing file to overwrite
             raise Exception("Series does not exist, unable to save. Please select 'Save As'")
 
@@ -517,7 +523,7 @@ class SeriesService():
         # Save As case
         if self.series_exists(series):
             msg = "There is already an existing file with this information. Please select 'Save' or 'Save Existing' to overwrite"
-            logger.info(msg)
+            print(msg)
             raise Exception(msg)
         else:
             try:
@@ -529,7 +535,7 @@ class SeriesService():
                 self._edit_session.rollback()
                 raise e
 
-        logger.info("A new series was added to the database, series id: "+str(series.id))
+        print("A new series was added to the database, series id: "+str(series.id))
         return True
 
     def save_values(self, values):
@@ -695,7 +701,6 @@ class SeriesService():
         except Exception as e:
             message = "series was not successfully deleted: %s" % e
             print message
-            logger.error(message)
             raise e
 
 
@@ -720,7 +725,6 @@ class SeriesService():
         except Exception as ex:
             message = "Values were not successfully deleted: %s" % ex
             print message
-            logger.error(message)
             raise ex
 
     def delete_dvs(self, id_list):
@@ -733,8 +737,6 @@ class SeriesService():
             self._edit_session.query(DataValue).filter(DataValue.local_date_time.in_(id_list)).delete(False)
         except Exception as ex:
             message = "Values were not successfully deleted: %s" % ex
-            print message
-            logger.error(message)
             raise ex
 
 #####################

@@ -1,99 +1,74 @@
 #Stephanie Reeder
 #7/27/17
-
-
-"""
-
-static public void missingValues( ref ZedGraph.PointPairList list){
-            for (int i = 1; i < list.Count; i++)
-            {
-                double curDate = list[i].X;
-                double prevDate = list[i - 1].X;
-                //if currdate - prevdate is greater than 1 day
-                double diff = curDate - prevDate;
-                if (diff > 3)
-                {
-                    //insert two values between the two points with NaN as the value
-                    list.Insert(i, prevDate + 1, double.NaN);
-                    list.Insert(i + 1, curDate - 1, double.NaN);
-                    i = i + 2;
-                }
-            }
-        }
-
-static public List<clsInterval> calcGaps(ref List<object> vals, ref ZedGraph.PointPairList list)
-        {
-            List<clsInterval> gaps = new List<clsInterval>();
-            for (int i = 0; i < vals.Count; i++)
-            {
-                try
-                {
-                    gaps.AddRange(gapbyval(Convert.ToDouble(vals[i]), ref list));
-                }
-                catch (Exception ex) { }
-
-            }
-            return gaps;
-        }
-static private List<clsInterval> gapbyval(double value, ref ZedGraph.PointPairList list)
-        {
-            List<clsInterval> gaps = new List<clsInterval>();
-            int i = 0;
-            clsInterval tmp = new clsInterval();
-            foreach (ZedGraph.PointPair pt in list)
-            {
-                i++;
-                if (pt.Y == value)
-                {
-                    if (tmp.Start <0)
-                        tmp.Start = i;
-
-                }
-                else
-                {
-
-                    //set end date to previous if there is a currently active pair list
-                    if (tmp.Start > 0)
-                    {
-                        tmp.End = i - 1;
-
-                        // check to see if the time period is greater than 24 hrs
-                        //double diff = list[tmp.End].X - list[tmp.Start].X;
-                        if (list[tmp.End].X - list[tmp.Start].X > 1)
-                            gaps.Add(tmp);
-                            //reset tmp
-                            tmp = new clsInterval();
-                    }
-
-                }
-                //if (list[i - 1].X - list[i].X > 1)
-                //    tmp.Start = i;
-                //    tmp.End = i - 1;
-                //    gaps.Add(tmp);
-                //    tmp = new clsInterval();
-
-
-
-            }
-            return gaps;
-
-        }
-
-
-    }
-
-    }
-
-"""
-class clsInterval:
-
-    def __init__(self, start, end=None):
-        self.start = start
-        self.end = end
-
+import numpy as np
+import pandas as pd
+import datetime
 
 
 class clsRemoveDataGaps:
-    def missingValues(self, point_list):
-        for point in point_list:
-            pass
+    time_units = {
+        'second': 's',
+        'minute': 'm',
+        'hour': 'h',
+        'day': 'D',
+        'week': 'W',
+        'month': 'M',
+        'year': 'Y'
+    }
+
+    def find_gaps(self, df, value, time_period):
+
+        # make a copy of the dataframe in order to modify it to be in the form we need to determine data gaps
+        copy_df = df
+        copy_df['datetime'] = df.index
+        copy_df['dateprev'] = copy_df['datetime'].shift()
+
+        # ensure that 'value' is an integer
+        if not isinstance(value, int):
+            value = int(value)
+
+        # create a bool column indicating which rows meet condition
+        filtered_results = copy_df['datetime'].diff() > np.timedelta64(value, self.time_units[time_period])
+
+        # filter on rows that passed previous condition
+        # print("Filtered Results")
+        # print(copy_df[filtered_results])
+        return copy_df[filtered_results]
+
+    def fill_gap(self, df, gap):
+
+        gaps = self.find_gaps(df, gap[0], gap[1])
+
+        timegap = np.timedelta64(5, self.time_units["minute"])
+        newrow = pd.DataFrame(data=None, columns=df.columns)
+        # if gaps is not of type dataframe- put it in a dataframe
+        # if not isinstance(gaps, pd.DataFrame
+        for g in gaps.iterrows():
+            row = g[1]
+            e = row.datetime
+            s = row.dateprev
+
+            print("Found Gaps: %s - %s" % (s.strftime("%m/%d/%Y %H:%M"), e.strftime("%m/%d/%Y %H:%M")))
+
+            # add value at the beginning of the loop
+            s = s + timegap
+            newrow.loc[s] = df.iloc[0]
+            newrow.set_value(s, "LocalDateTime", s)
+            newrow.set_value(s, "DataValue", np.nan)
+            newrow.set_value(s, "Month", s.month)
+            newrow.set_value(s, "Year", s.year)
+
+            # add value at the end of the loop
+            e = e - timegap
+            newrow.loc[e] = df.iloc[0]
+            newrow.set_value(e, "LocalDateTime", e)
+            newrow.set_value(e,"DataValue", np.nan)
+            newrow.set_value(e, "Month", e.month)
+            newrow.set_value(e, "Year", e.year)
+
+        print "New Rows"
+        print (newrow)
+        df = df.append(newrow)
+
+        return df.sort_index()
+
