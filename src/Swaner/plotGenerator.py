@@ -26,13 +26,34 @@ class plotGenerator:
         self.dbconn = sm.get_series_service()
 
 
-
     def generatePlots(self):
+
+
+        for d in self.data["multvarbounds"]:
+            sc1 = self.dbconn.get_series_by_variable_code(d.keys()[0])[0]
+            sc2 = self.dbconn.get_series_by_variable_code(d.keys()[1])[0]
+            bounds1 = d[sc1.variable_code]
+            bounds2 = d[sc2.variable_code]
+
+            Now = datetime.now()
+
+            # day
+            # self.plotTimeSeries(sc, Now-timedelta(days=2),
+            #                         Now-timedelta(days=1), time="day")
+            # week
+            self.plotTimeSeriesMulti(sc1, sc2, sc1.end_date_time - timedelta(days=7), sc1.end_date_time, time="week",
+                                     bounds1= bounds1, bounds2=bounds2)
+
+            # year
+            self.plotTimeSeriesMulti(sc1, sc2, datetime(sc1.end_date_time.year - 1, 01, 01), sc1.end_date_time, time="year",
+                                     bounds1= bounds1, bounds2=bounds2)
+
+
 
         for d in self.data["bounds"]:
             sc = self.dbconn.get_series_by_variable_code(d)[0]
 
-            #generate 3 plots ( day, week and year
+            #generate 3 plots ( day, week and year)
             Now= datetime.now()
 
             #day
@@ -62,9 +83,7 @@ class plotGenerator:
         :return:
         """
         rm = clsRemoveDataGaps()
-        print series_catalog
-        print start
-        print end
+        print "%s: %s"% (time, series_catalog)
 
         myplot = singlePlotData(series_catalog, self.dbconn, start, end)
 
@@ -95,10 +114,13 @@ class plotGenerator:
 
                 if time == 'year':
                     tempvals = rm.fill_gap(myplot.values, [2, "day"])
+                    tempvals = rm.fill_year_gap(tempvals)
 
                     myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                            columns=tempvals.Year,
                                            values="DataValue")
+
+                    myplot.values = rm.fill_year_gap(tempvals)
 
 
                     myplot.values.plot(ax = ax, color = ["blue", "black"], linewidth = 4 )
@@ -121,14 +143,113 @@ class plotGenerator:
                         ax.xaxis.set_major_formatter(mdates.DateFormatter("%I:%M %p"))
                         ax.set_xlabel('Time')
 
-                    else:
-                        ax.xaxis.set_major_locator(mdates.DayLocator())
+                    elif time == "week":
+                        # ax.xaxis.set_major_locator(mdates.DayLocator())
                         ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%d/%Y"))
                         ax.set_xlabel('Date')
 
-                ax.set_ylabel(myplot.axis_title())
+                ax.set_ylabel(myplot.axis_title(series_catalog))
                 fig.suptitle(myplot.create_title(), fontsize=20)
                 ax.yaxis.grid(True, which='major')
+
+                imageName = myplot.create_filename()
+
+                fileName = self.data["imagepath"].encode('latin-1') + "\\" + imageName
+                try:
+                    plt.savefig(fileName+ ".png", bbox_inches='tight')
+                    # import Image
+                    # Image.open(fileName+ ".png").save(fileName+ ".jpg", "JPEG")
+                except Exception as ex:
+                    print "An error occured while creating the plot. \n Message = %s" % ex
+
+                plt.cla()
+                plt.clf()
+                plt.close()
+
+        except Exception as ex:
+            print ex
+
+
+
+    def plotTimeSeriesMulti(self, sc1, sc2, start, end, time, bounds1, bounds2):
+
+        rm = clsRemoveDataGaps()
+        print "%s: %s& %s" % (time, sc1, sc2)
+
+        myplot = multPlotData(sc1, sc2, self.dbconn, start, end)
+
+        myplot.noDV = self.dbconn.get_variable_by_code(sc1.variable_code).no_data_value
+        myplot.bounds = bounds1
+        myplot.bounds2 = bounds2
+
+        myplot.time = time
+
+        try:
+            site = sc1.site_name
+            values1= self.dbconn.get_plot_values(sc1.id, myplot.noDV, start, end)
+            #replace nodvs with None
+            values1.loc[(values1['DataValue'] == myplot.noDV), "DataValue"] = None
+
+            site = sc2.site_name
+            values2 = self.dbconn.get_plot_values(sc2.id, myplot.noDV, start, end)
+            # replace nodvs with None
+            values2.loc[(values2['DataValue'] == myplot.noDV), "DataValue"] = None
+
+            # if len(values2.index) < 1:
+            #     pass
+
+            if values2 is None or values1 is None:
+                pass
+                # plot that says "No Data"
+            else:
+                myplot.values = values1[
+                    (values1["DataValue"] > myplot.bounds["min"]) & (values1["DataValue"] < myplot.bounds["max"])]
+                myplot.values2 = values2[
+                    (values2["DataValue"] > myplot.bounds2["min"]) & (values2["DataValue"] < myplot.bounds2["max"])]
+
+                fig, ax1 = plt.subplots(figsize=(16, 8))
+                ax2 = ax1.twinx()
+                if time == 'year':
+                    tempvals = rm.fill_gap(myplot.values, [2, "day"])
+                    tempvals = rm.fill_year_gap(tempvals)
+
+                    myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
+                                           columns=tempvals.Year,
+                                           values="DataValue")
+
+
+                    myplot.values = rm.fill_year_gap(tempvals)
+
+
+                    myplot.values.plot(ax = ax, color = ["blue", "black"], linewidth = 4 )
+
+                    ax1.xaxis.set_major_locator(mdates.MonthLocator())
+                    ax1.set_xlabel('Date')
+                    labels = ["January", "February", "March", "April", "May", "June", "July", "August",
+                              "September", "October", "November", "December"]
+                    ax1.set_xticklabels(labels)
+                    plt.xlim(1, 366)
+                    plt.legend()
+
+                else:
+                    myplot.values=rm.fill_gap(myplot.values, [24, "hour"])
+                    ax1.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
+                                 color="blue", xdate=True, label=myplot.series_catalog.variable_name, linewidth=4,
+                                 alpha=1)
+                    if time == "day":
+                        ax1.xaxis.set_major_locator(mdates.HourLocator(interval = 3))
+                        ax1.xaxis.set_major_formatter(mdates.DateFormatter("%I:%M %p"))
+                        ax1.set_xlabel('Time')
+
+                    elif time == "week":
+                        # ax.xaxis.set_major_locator(mdates.DayLocator())
+                        ax1.xaxis.set_major_formatter(mdates.DateFormatter("%m/%d/%Y"))
+                        ax1.set_xlabel('Date')
+
+                ax1.set_ylabel(myplot.axis_title(myplot.series_catalog))
+                ax2.set_ylable(myplot.axis_title(myplot.series_catalog2))
+                fig.suptitle(myplot.create_title(), fontsize=20)
+
 
                 imageName = myplot.create_filename()
 

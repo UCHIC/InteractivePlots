@@ -48,12 +48,15 @@
   },
   "multvarbounds":[ 
     {
-      "var1": "LDO_mgl_Avg",
-      "min1": 0.01,
-      "max1": 16,
-      "var2": "MS_WTemp_C_Avg",
-      "min2": -5,
-      "max2": 40
+        "LDO_mgl_Avg":{
+        "min": 0.01,
+        "max": 16
+      },
+        "MS_WTemp_C_Avg":{
+        "min": -5,
+        "max": 40
+      }
+
     }
   ]
   
