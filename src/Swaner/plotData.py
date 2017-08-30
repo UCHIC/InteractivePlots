@@ -30,12 +30,12 @@ class PlotData:
         title = ""
         unit = self.dbconn.get_unit_by_id(sc.variable_units_id)
         if "turbidity" in sc.variable_name.lower():
-            title = sc.variable_name.lower()+" in " + unit.abbreviation
+            title = sc.variable_name.lower()+" in " + unit.name#unit.abbreviation
         elif "ph" in sc.variable_name.lower():
             title = "pH"
         else:
             # title = unit.name
-            title = self.series_catalog.variable_name +" in " + unit.abbreviation
+            title = sc.variable_name +" in " + unit.name#unit.abbreviation
         # label = "%s in %s" %(title, unit.abbreviation)
         return title
 
@@ -77,12 +77,12 @@ class singlePlotData(PlotData):
         # if (time == "Year")
         #TODO yearly
 
-        abbrev = "(" + self.dbconn.get_unit_by_id(self.series_catalog.variable_units_id).abbreviation + ")"
+        abbrev =  self.dbconn.get_unit_by_id(self.series_catalog.variable_units_id).abbreviation
 
-        # return (self.axis_title(self.series_catalog, dbconn), abbrev+time)
-        # return self.axis_title().replace(' ', '_').replace("/", "") + "_" + abbrev.replace("/", "") +"_"+self.time
-
-        return self.axis_title(self.series_catalog).replace(' ', '_').replace("/", "") + "_" + self.time
+        name = "%s_%s_%s"%(self.clarify_variable(self.series_catalog.variable_name).replace(' ', '_').replace("/", ""),
+                           abbrev.replace("/", "_"),
+                           self.time)
+        return name
 
 
 
@@ -99,12 +99,18 @@ class multPlotData(PlotData):
         self.end = end
 
     def create_filename(self):
-        Title=self.create_title()
-        return Title.replace(' ', '_').replace("/", "") + "_" + self.time
+
+        Title = "%s_%s_%s"%(self.series_catalog.variable_name.replace(' ', '_').replace("/", ""),
+                            self.series_catalog2.variable_name.replace(' ', '_').replace("/", ""),
+                            self.time)
+        #return self.axis_title(self.series_catalog).replace(' ', '_').replace("/", "") + "_" + self.time
+
+        #Title=self.create_title()
+        return Title #Title.replace(' ', '_').replace("/", "") + "_" + self.time
 
     def create_title(self):
-        v1 = self.axis_title(self.series_catalog)
-        v2 = self.axis_title(self.series_catalog2)
+        v1 =  self.clarify_variable(self.series_catalog.variable_name)#self.axis_title(self.series_catalog)
+        v2 = self. clarify_variable(self.series_catalog2.variable_name)#self.axis_title(self.series_catalog2)
         if self.time == "year":
             Title = "Measured %s/%s in in East Canyon Creek" % (v1, v2)
         else:

@@ -31,11 +31,7 @@ class clsRemoveDataGaps:
         filtered_results = copy_df['datetime'].diff() > np.timedelta64(value, self.time_units[time_period])
 
         # filter on rows that passed previous condition
-        # print("Filtered Results")
-        # print(copy_df[filtered_results])
         return copy_df[filtered_results]
-
-
 
     def fill_gap(self, df, gap):
 
@@ -44,29 +40,32 @@ class clsRemoveDataGaps:
         timegap = np.timedelta64(5, self.time_units["minute"])
         newrow = pd.DataFrame(data=None, columns=df.columns)
         # if gaps is not of type dataframe- put it in a dataframe
-        # if not isinstance(gaps, pd.DataFrame
         for g in gaps.iterrows():
             row = g[1]
-            e = row.datetime
-            s = row.dateprev
+            try:
+                e = row.datetime
+                s = row.dateprev
 
-            print("Found Gaps: %s - %s" % (s.strftime("%m/%d/%Y %H:%M"), e.strftime("%m/%d/%Y %H:%M")))
+                print("Found Gaps: %s - %s" % (s.strftime("%m/%d/%Y %H:%M"), e.strftime("%m/%d/%Y %H:%M")))
 
-            # add value at the beginning of the loop
-            s = s + timegap
-            newrow.loc[s] = df.iloc[0]
-            newrow.set_value(s, "LocalDateTime", s)
-            newrow.set_value(s, "DataValue", np.nan)
-            newrow.set_value(s, "Month", s.month)
-            newrow.set_value(s, "Year", s.year)
+                # add value at the beginning of the loop
+                s = s + timegap
+                newrow.loc[s] = df.iloc[0]
+                newrow.set_value(s, "LocalDateTime", s)
+                newrow.set_value(s, "DataValue", np.nan)
+                newrow.set_value(s, "Month", s.month)
+                newrow.set_value(s, "Year", s.year)
 
-            # add value at the end of the loop
-            e = e - timegap
-            newrow.loc[e] = df.iloc[0]
-            newrow.set_value(e, "LocalDateTime", e)
-            newrow.set_value(e,"DataValue", np.nan)
-            newrow.set_value(e, "Month", e.month)
-            newrow.set_value(e, "Year", e.year)
+                # add value at the end of the loop
+                e = e - timegap
+                newrow.loc[e] = df.iloc[0]
+                newrow.set_value(e, "LocalDateTime", e)
+                newrow.set_value(e, "DataValue", np.nan)
+                newrow.set_value(e, "Month", e.month)
+                newrow.set_value(e, "Year", e.year)
+            except Exception as ex:
+                print ("Error: %s", ex)
+                pass
 
         # print "New Rows"
         # print (newrow)
@@ -93,9 +92,6 @@ class clsRemoveDataGaps:
         # print("Filtered Results")
         # print(copy_df[filtered_results])
         return copy_df[filtered_results]
-
-
-
 
     def fill_year_gap(self, df):
         newrow = pd.DataFrame(data=None, columns=df.columns)
