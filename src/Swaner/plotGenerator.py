@@ -107,10 +107,14 @@ class plotGenerator:
 
                     myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                                    columns=tempvals.Year,
-                                                    dropna = False,
-                                                   values="DataValue")
+                                                    dropna=False,
+                                                   values="DataValue")\
+                        .dropna(axis=1, how='all')
 
-                    myplot.values.plot(ax=ax, color=["blue", "black"], linewidth=4)
+
+                    myplot.values.plot(ax=ax,
+                                       # color=["blue", "black"],
+                                       linewidth=4)
 
                     ax.xaxis.set_major_locator(mdates.MonthLocator())
                     ax.set_xlabel('Date')
@@ -121,7 +125,7 @@ class plotGenerator:
                     plt.legend()
 
                 else:
-                    myplot.values = rm.fill_gap(myplot.values, [24, "hour"])
+                    myplot.values = rm.fill_gap(myplot.values, [28, "hour"])
                     ax.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
                                  color="blue", xdate=True, label=myplot.series_catalog.variable_name, linewidth=4,
                                  alpha=1)
@@ -193,15 +197,18 @@ class plotGenerator:
                 if time == 'year':
 
                     #variable 1
+
                     tempvals = rm.fill_gap(myplot.values, [2, "day"])
                     tempvals = rm.fill_year_gap(tempvals)
                     myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                            columns=tempvals.Year,
                                             dropna = False,
-                                           values="DataValue")
+                                           values="DataValue").dropna(axis=1, how='all')
 
                     # plot1 =myplot.values["2017"].plot(ax=ax1, color=["blue"], linewidth=4)
-                    plot1 = ax1.plot_date(myplot.values.index, myplot.values['2017'], "-",
+                    print myplot.values[str(end.year)]
+                    # print myplot.values[end.year]
+                    plot1 = ax1.plot_date(myplot.values.index, myplot.values[str(end.year)], "-",
                                           color="blue", xdate=True, linewidth=4,
                                           label=myplot.series_catalog.variable_name,
                                           alpha=1)
@@ -212,10 +219,11 @@ class plotGenerator:
                     myplot.values2 = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                                    columns=tempvals.Year,
                                                     dropna = False,
-                                                   values="DataValue")
+                                                   values="DataValue").dropna(axis=1, how='all')
 
                     # plot2 =myplot.values2["2017"].plot(ax=ax2, color=["black"], linewidth=4)
-                    plot2 = ax2.plot_date(myplot.values2.index, myplot.values2['2017'], "-",
+
+                    plot2 = ax2.plot_date(myplot.values2.index, myplot.values2[str(end.year)], "-",
                                           color="black", xdate=True, linewidth=4,
                                           label=myplot.series_catalog2.variable_name,
                                           alpha=1)
@@ -229,13 +237,13 @@ class plotGenerator:
 
                 else:
                     #variable 1
-                    myplot.values = rm.fill_gap(myplot.values, [24, "hour"])
+                    myplot.values = rm.fill_gap(myplot.values, [28, "hour"])
                     plot1 = ax1.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
                                           color="blue", xdate=True, linewidth=4,
                                           alpha=1)
 
                     # variable 2
-                    myplot.values2 = rm.fill_gap(myplot.values2, [24, "hour"])
+                    myplot.values2 = rm.fill_gap(myplot.values2, [28, "hour"])
                     plot2 = ax2.plot_date(myplot.values2.index, myplot.values2['DataValue'], "-",
                                           color="black", xdate=True, linewidth=4,
                                           alpha=1)
