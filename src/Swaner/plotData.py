@@ -74,9 +74,6 @@ class singlePlotData(PlotData):
 
     def create_filename(self):
 
-        # if (time == "Year")
-        #TODO yearly
-
         abbrev =  self.dbconn.get_unit_by_id(self.series_catalog.variable_units_id).abbreviation
 
         name = "%s_%s_%s"%(self.clarify_variable(self.series_catalog.variable_name).replace(' ', '_').replace("/", ""),
@@ -100,13 +97,11 @@ class multPlotData(PlotData):
 
     def create_filename(self):
 
-        Title = "%s_%s_%s"%(self.series_catalog.variable_name.replace(' ', '_').replace("/", ""),
-                            self.series_catalog2.variable_name.replace(' ', '_').replace("/", ""),
+        Title = "%s_%s_%s"%(self.clarify_variable(self.series_catalog.variable_name).replace(' ', '_').replace("/", ""),
+                            self.clarify_variable(self.series_catalog2.variable_name).replace(' ', '_').replace("/", ""),
                             self.time)
-        #return self.axis_title(self.series_catalog).replace(' ', '_').replace("/", "") + "_" + self.time
 
-        #Title=self.create_title()
-        return Title #Title.replace(' ', '_').replace("/", "") + "_" + self.time
+        return Title
 
     def create_title(self):
         v1 =  self.clarify_variable(self.series_catalog.variable_name)#self.axis_title(self.series_catalog)

@@ -107,6 +107,7 @@ class plotGenerator:
 
                     myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                                    columns=tempvals.Year,
+                                                    dropna = False,
                                                    values="DataValue")
 
                     myplot.values.plot(ax=ax, color=["blue", "black"], linewidth=4)
@@ -196,6 +197,7 @@ class plotGenerator:
                     tempvals = rm.fill_year_gap(tempvals)
                     myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                            columns=tempvals.Year,
+                                            dropna = False,
                                            values="DataValue")
 
                     # plot1 =myplot.values["2017"].plot(ax=ax1, color=["blue"], linewidth=4)
@@ -209,6 +211,7 @@ class plotGenerator:
                     tempvals = rm.fill_year_gap(tempvals)
                     myplot.values2 = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                                    columns=tempvals.Year,
+                                                    dropna = False,
                                                    values="DataValue")
 
                     # plot2 =myplot.values2["2017"].plot(ax=ax2, color=["black"], linewidth=4)
@@ -229,14 +232,12 @@ class plotGenerator:
                     myplot.values = rm.fill_gap(myplot.values, [24, "hour"])
                     plot1 = ax1.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
                                           color="blue", xdate=True, linewidth=4,
-                                          label=myplot.series_catalog.variable_name,
                                           alpha=1)
 
                     # variable 2
                     myplot.values2 = rm.fill_gap(myplot.values2, [24, "hour"])
                     plot2 = ax2.plot_date(myplot.values2.index, myplot.values2['DataValue'], "-",
                                           color="black", xdate=True, linewidth=4,
-                                          label=myplot.series_catalog2.variable_name,
                                           alpha=1)
 
                     if time == "day":
