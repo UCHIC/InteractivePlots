@@ -113,7 +113,7 @@ class plotGenerator:
 
 
                     myplot.values.plot(ax=ax,
-                                       # color=["blue", "black"],
+                                       color=["blue", "black"],
                                        linewidth=4)
 
                     ax.xaxis.set_major_locator(mdates.MonthLocator())
@@ -192,8 +192,11 @@ class plotGenerator:
                 myplot.values2 = values2[
                     (values2["DataValue"] > myplot.bounds2["min"]) & (values2["DataValue"] < myplot.bounds2["max"])]
 
-                fig, ax1 = plt.subplots(figsize=(16, 8))
-                ax2 = ax1.twinx()
+                # fig, ax= plt.subplots(figsize=(16, 8))
+                fig = plt.figure(figsize=(16, 8))
+                ax = fig.add_subplot(111)
+                ax2 = ax.twinx()
+
                 if time == 'year':
 
                     #variable 1
@@ -201,71 +204,71 @@ class plotGenerator:
                     tempvals = rm.fill_gap(myplot.values, [2, "day"])
                     tempvals = rm.fill_year_gap(tempvals)
                     myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
-                                           columns=tempvals.Year,
-                                            dropna = False,
-                                           values="DataValue").dropna(axis=1, how='all')
+                                                   columns=tempvals.Year,
+                                                   dropna=False,
+                                                   values="DataValue").dropna(axis=1, how='all')
 
-                    # plot1 =myplot.values["2017"].plot(ax=ax1, color=["blue"], linewidth=4)
-                    print myplot.values[str(end.year)]
-                    # print myplot.values[end.year]
-                    plot1 = ax1.plot_date(myplot.values.index, myplot.values[str(end.year)], "-",
-                                          color="blue", xdate=True, linewidth=4,
-                                          label=myplot.series_catalog.variable_name,
-                                          alpha=1)
+                    # plot1 = myplot.values[str(end.year)].plot(ax=ax, color="blue", linewidth=4, label=myplot.series_catalog.variable_name)
+                    plot1 = ax.plot(myplot.values.index, myplot.values[str(end.year)], "-",
+                                     color="blue", linewidth=4,
+                                     label=myplot.series_catalog.variable_name,
+                                     alpha=1)
 
                     #variable 2
                     tempvals = rm.fill_gap(myplot.values2, [2, "day"])
                     tempvals = rm.fill_year_gap(tempvals)
                     myplot.values2 = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
-                                                   columns=tempvals.Year,
-                                                    dropna = False,
-                                                   values="DataValue").dropna(axis=1, how='all')
+                                                    columns=tempvals.Year,
+                                                    dropna=False,
+                                                    values="DataValue").dropna(axis=1, how='all')
 
-                    # plot2 =myplot.values2["2017"].plot(ax=ax2, color=["black"], linewidth=4)
 
-                    plot2 = ax2.plot_date(myplot.values2.index, myplot.values2[str(end.year)], "-",
-                                          color="black", xdate=True, linewidth=4,
-                                          label=myplot.series_catalog2.variable_name,
-                                          alpha=1)
+                    plot2 = ax2.plot(myplot.values2.index, myplot.values2[str(end.year)], "-",
+                                     color="black",  linewidth=4,
+                                     label=myplot.series_catalog2.variable_name,
+                                     alpha=1)
 
-                    ax1.xaxis.set_major_locator(mdates.MonthLocator())
-                    ax1.set_xlabel('Date')
+                    ax.xaxis.set_major_locator(mdates.MonthLocator())
+                    ax.set_xlabel('Date')
                     labels = ["January", "February", "March", "April", "May", "June", "July", "August",
                               "September", "October", "November", "December"]
-                    ax1.set_xticklabels(labels)
+                    ax.set_xticklabels(labels)
                     plt.xlim(1, 366)
 
                 else:
                     #variable 1
                     myplot.values = rm.fill_gap(myplot.values, [28, "hour"])
-                    plot1 = ax1.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
-                                          color="blue", xdate=True, linewidth=4,
-                                          alpha=1)
+                    plot1 = ax.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
+                                          color="blue",  xdate=True, linewidth=4, alpha=1,
+                                          label=myplot.series_catalog.variable_name)
 
                     # variable 2
                     myplot.values2 = rm.fill_gap(myplot.values2, [28, "hour"])
                     plot2 = ax2.plot_date(myplot.values2.index, myplot.values2['DataValue'], "-",
-                                          color="black", xdate=True, linewidth=4,
-                                          alpha=1)
+                                          color="black", xdate=True, linewidth=4, alpha=1,
+                                          label=myplot.series_catalog2.variable_name)
 
                     if time == "day":
-                        ax1.xaxis.set_major_locator(mdates.HourLocator(interval=3))
-                        ax1.xaxis.set_major_formatter(mdates.DateFormatter("%I:%M %p"))
-                        ax1.set_xlabel('Time')
+                        ax.xaxis.set_major_locator(mdates.HourLocator(interval=3))
+                        ax.xaxis.set_major_formatter(mdates.DateFormatter("%I:%M %p"))
+                        ax.set_xlabel('Time')
 
                     elif time == "week":
                         # ax.xaxis.set_major_locator(mdates.DayLocator())
-                        ax1.xaxis.set_major_formatter(mdates.DateFormatter("%m/%d/%Y"))
-                        ax1.set_xlabel('Date')
+                        ax.xaxis.set_major_formatter(mdates.DateFormatter("%m/%d/%Y"))
+                        ax.set_xlabel('Date')
 
-                plt.legend()
-                # ax1.legend()
+                # plt.legend()
+                # ax.legend()
                 # ax2.legend()
-                # ax1.legend([plot1, plot2], labels=[myplot.series_catalog.variable_name, myplot.series_catalog2.variable_name])
+                plts = plot1+plot2
+                labs= [l.get_label() for l in plts]
+                ax.legend(plts, labs, loc = 0)
 
-                ax1.set_ylabel(myplot.axis_title(myplot.series_catalog))
+                ax.set_ylabel(myplot.axis_title(myplot.series_catalog))
                 ax2.set_ylabel(myplot.axis_title(myplot.series_catalog2))
                 fig.suptitle(myplot.create_title(), fontsize=20)
+                plt.show()
 
                 imageName = myplot.create_filename()
 
