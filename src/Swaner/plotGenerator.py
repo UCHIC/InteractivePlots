@@ -102,7 +102,9 @@ class plotGenerator:
                 fig, ax = plt.subplots(figsize=(16, 8))
 
                 if time == 'year':
-                    tempvals = rm.fill_gap(myplot.values, [2, "day"])
+
+                    tempvals = rm.fill_identical_gap(myplot.values, [2, "day"])
+                    tempvals = rm.fill_gap(tempvals, [2, "day"])
                     tempvals = rm.fill_year_gap(tempvals)
 
                     myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
@@ -125,7 +127,8 @@ class plotGenerator:
                     plt.legend()
 
                 else:
-                    myplot.values = rm.fill_gap(myplot.values, [28, "hour"])
+                    tempvals = rm.fill_identical_gap(myplot.values, [28, "hour"])
+                    myplot.values = rm.fill_gap(tempvals, [28, "hour"])
                     ax.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
                                  color="blue", xdate=True, label=myplot.series_catalog.variable_name, linewidth=4,
                                  alpha=1)
@@ -200,8 +203,9 @@ class plotGenerator:
                 if time == 'year':
 
                     #variable 1
+                    tempvals = rm.fill_identical_gap(myplot.values, [2, "day"])
 
-                    tempvals = rm.fill_gap(myplot.values, [2, "day"])
+                    tempvals = rm.fill_gap(tempvals, [2, "day"])
                     tempvals = rm.fill_year_gap(tempvals)
                     myplot.values = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                                    columns=tempvals.Year,
@@ -215,7 +219,8 @@ class plotGenerator:
                                      alpha=1)
 
                     #variable 2
-                    tempvals = rm.fill_gap(myplot.values2, [2, "day"])
+                    tempvals = rm.fill_identical_gap(myplot.values2, [2, "day"])
+                    tempvals = rm.fill_gap(tempvals, [2, "day"])
                     tempvals = rm.fill_year_gap(tempvals)
                     myplot.values2 = pd.pivot_table(tempvals, index=tempvals.LocalDateTime.dt.dayofyear,
                                                     columns=tempvals.Year,
@@ -237,13 +242,15 @@ class plotGenerator:
 
                 else:
                     #variable 1
-                    myplot.values = rm.fill_gap(myplot.values, [28, "hour"])
+                    tempvals = rm.fill_identical_gap(myplot.values, [28, "hour"])
+                    myplot.values = rm.fill_gap(tempvals, [28, "hour"])
                     plot1 = ax.plot_date(myplot.values.index, myplot.values['DataValue'], "-",
                                           color="blue",  xdate=True, linewidth=4, alpha=1,
                                           label=myplot.series_catalog.variable_name)
 
                     # variable 2
-                    myplot.values2 = rm.fill_gap(myplot.values2, [28, "hour"])
+                    tempvals = rm.fill_identical_gap(myplot.values2, [28, "hour"])
+                    myplot.values2 = rm.fill_gap(tempvals, [28, "hour"])
                     plot2 = ax2.plot_date(myplot.values2.index, myplot.values2['DataValue'], "-",
                                           color="black", xdate=True, linewidth=4, alpha=1,
                                           label=myplot.series_catalog2.variable_name)

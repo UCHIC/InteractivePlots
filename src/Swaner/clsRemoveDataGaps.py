@@ -21,7 +21,7 @@ class clsRemoveDataGaps:
         # make a copy of the dataframe in order to modify it to be in the form we need to determine data gaps
         copy_df = df
         copy_df['datetime'] = df.index
-        copy_df['dateprev'] = copy_df['datetime'].shift()
+        copy_df['prev'] = copy_df['datetime'].shift()
 
         # ensure that 'value' is an integer
         if not isinstance(value, int):
@@ -36,6 +36,9 @@ class clsRemoveDataGaps:
     def fill_gap(self, df, gap):
 
         gaps = self.find_gaps(df, gap[0], gap[1])
+        return self.add_Nan(df, gaps)
+
+    def add_Nan(self, df, gaps):
 
         timegap = np.timedelta64(1, self.time_units["day"])
 
@@ -43,7 +46,7 @@ class clsRemoveDataGaps:
             row = g[1]
             try:
                 e = row.datetime
-                s = row.dateprev
+                s = row.prev
 
                 # print("Found Gaps: %s - %s" % (s.strftime("%m/%d/%Y %H:%M"), e.strftime("%m/%d/%Y %H:%M")))
 
@@ -105,3 +108,29 @@ class clsRemoveDataGaps:
         newrow.set_value(date, "Month", date.month)
         newrow.set_value(date, "Year", date.year)
         return newrow
+
+
+    def find_identical_values(self, df, time_value, time_period):
+        # copy_df = df
+        # copy_df['prev'] = copy_df['DataValue'].shift()
+        #
+        # # ensure that 'value' is an integer
+        # if not isinstance(time_value, int):
+        #     value = int(time_value)
+        #
+        # # create a bool column indicating which rows meet condition
+        # # filtered_results = copy_df['datetime'].diff() > np.timedelta64(value, self.time_units[time_period])
+        #
+        # filtered_results = copy_df['prev'] == copy_df["DataValue"]
+        #
+        #
+        # # filter on rows that passed previous condition
+        # return copy_df[filtered_results]
+
+        return df.loc[df["DataValue"].shift() != df["DataValue"]]
+
+    def fill_identical_gap(self, df, gap):
+
+        df = self.find_identical_values(df, gap[0], gap[1])
+        # return self.add_Nan(gaps)
+        return df
