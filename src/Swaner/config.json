@@ -14,36 +14,45 @@
 
     "pH_Avg" :{
         "min": 3,
-        "max": 14
+        "max": 14,
+        "showprevyear": false
+
       },
     "Cond_Avg":{
       "min": 50,
-      "max": 3000
+      "max": 3000,
+        "showprevyear": false
     },
     "WLevel_ft_Avg":{
 
       "min": 0.01,
-      "max": 10
+      "max": 10,
+        "showprevyear": false
     },
     "Turb_Median":{
       "min": 5,
-      "max": 1650
+      "max": 1650,
+        "showprevyear": false
     },
     "LDO_mgl_Avg":{
       "min": 0.01,
-      "max": 16
+      "max": 16,
+        "showprevyear": false
     },
     "MS_WTemp_C_Avg":{
       "min": -5,
-      "max": 40
+      "max": 40,
+        "showprevyear": false
     },
     "00060":{
       "min": 0.01,
-      "max": 10000
+      "max": 10000,
+        "showprevyear": false
     },
     "Sal_Avg":{
       "min": 0.01,
-      "max": 10000
+      "max": 10000,
+        "showprevyear": false
     }
   },
   "multvarbounds":[ 

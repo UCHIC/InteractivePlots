@@ -10,6 +10,7 @@ class PlotData:
     end = None
     xaxis = None
     yaxis = None
+    show_prev= True
 
 
 

@@ -31,6 +31,7 @@ class plotGenerator:
             bounds1 = d[sc1.variable_code]
             bounds2 = d[sc2.variable_code]
 
+
             Now = datetime.now()
 
             # day
@@ -47,6 +48,7 @@ class plotGenerator:
         for d in self.data["bounds"]:
             sc = self.dbconn.get_series_by_variable_code(d)[0]
 
+
             #generate 3 plots (day, week and year)
             Now= datetime.now()
 
@@ -60,7 +62,7 @@ class plotGenerator:
             self.plotTimeSeries(sc, datetime(sc.end_date_time.year-1, 01, 01), sc.end_date_time, time="year")
 
 
-    def plotTimeSeries(self, series_catalog, start, end, time ):
+    def plotTimeSeries(self, series_catalog, start, end, time,):
         """
             //This function plots the Time Series graph for the selected data series
             //Inputs:  site -> Code - Name of the site to plot -> used for the title
@@ -82,7 +84,7 @@ class plotGenerator:
 
         myplot.noDV = self.dbconn.get_variable_by_code(series_catalog.variable_code).no_data_value
         myplot.bounds = self.data["bounds"][series_catalog.variable_code]
-
+        myplot.show_prev = myplot.bounds["showprevyear"]
         myplot.time = time
 
         try:
@@ -113,10 +115,13 @@ class plotGenerator:
                                                    values="DataValue")\
                         .dropna(axis=1, how='all')
 
+                    if myplot.show_prev:
+                        myplot.values.plot(ax=ax,
+                                           color=["blue", "black"],
+                                           linewidth=4)
+                    else:
+                        myplot.values[str(end.year)].plot(ax = ax, color = "blue", linewidth = 4 )
 
-                    myplot.values.plot(ax=ax,
-                                       color=["blue", "black"],
-                                       linewidth=4)
 
                     ax.xaxis.set_major_locator(mdates.MonthLocator())
                     ax.set_xlabel('Date')
